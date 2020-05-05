@@ -36,6 +36,7 @@ routerUsuarioSession.use(function(req, res, next) {
 });
 //Aplicar routerUsuarioSession
 app.use("/listausuarios",routerUsuarioSession);
+app.use("/invitaciones",routerUsuarioSession);
 
 app.use(express.static('public'));
 // Variables
@@ -48,6 +49,9 @@ app.set('crypto',crypto);
 require("./routes/rusuarios.js")(app, swig, gestorBD); // (app, param1, param2, etc.)
 require("./routes/rinvitaciones.js")(app, swig, gestorBD); // (app, param1, param2, etc.)
 
+app.get('/', function (req, res) {
+    res.redirect('/identificarse');
+});
 // lanzar el servidor
 https.createServer({
     key: fs.readFileSync('certificates/alice.key'),

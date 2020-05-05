@@ -2,7 +2,7 @@ module.exports = function(app, swig, gestorBD) {
 
     app.post('/invitaciones/:usuario_id', function (req, res) {
         if ( req.session.usuario == null) {
-            res.send("No estas autenticado"); //CAmbiar
+            res.redirect("/identificarse");
             return;
         }
             let criterio={
