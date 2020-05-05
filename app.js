@@ -12,8 +12,7 @@ app.use(expressSession({
     saveUninitialized: true
 }));
 let crypto = require('crypto');
-//let fileUpload = require('express-fileupload');
-//app.use(fileUpload());
+
 let mongo = require('mongodb');
 let swig = require('swig');
 let bodyParser = require('body-parser');
@@ -22,6 +21,21 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 let gestorBD = require("./modules/gestorBD.js");
 gestorBD.init(app,mongo);
+
+// routerUsuarioSession
+let routerUsuarioSession = express.Router();
+routerUsuarioSession.use(function(req, res, next) {
+    console.log("routerUsuarioSession");
+    if ( req.session.usuario ) {
+        // dejamos correr la petición
+        next();
+    } else {
+        console.log("va a : "+req.session.destino)
+        res.redirect("/identificarse");
+    }
+});
+//Aplicar routerUsuarioSession
+app.use("/listausuarios",routerUsuarioSession);
 
 app.use(express.static('public'));
 // Variables
