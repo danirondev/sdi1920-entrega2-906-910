@@ -26,9 +26,16 @@
                 <!-- http://www.socicon.com/generator.php -->
                 <div class="wrap">{{ usuario.nombre }} {{ usuario.apellido }}</div>
                 <div class="wrap">{{ usuario.email }}</div>
-            <button class="btn"
-                    href="/cancion/{{ cancion._id.toString() }}"> Agregar amigo
-            </button>
+
+            {% if usuario_sesion!=usuario.email %}
+            <form class="form-horizontal" method="post" action="/invitaciones/{{ usuario._id.toString() }}">
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn">Agregar amigo</button>
+                    </div>
+                </div>
+            </form>
+            {% endif %}
         </div>
     </div>
     {% endfor %}

@@ -47,7 +47,8 @@ module.exports = function(app, swig, gestorBD) {
                     {
                         usuarios : usuarios,
                         paginas : paginas,
-                        actual : pg
+                        actual : pg,
+                        usuario_sesion :  req.session.usuario
                     });
                 res.send(respuesta);
             }
@@ -67,7 +68,7 @@ module.exports = function(app, swig, gestorBD) {
                 apellido: req.body.apellido,
                 email: req.body.email,
                 password: seguro
-        };
+            };
             let criterio = {email: req.body.email};
             gestorBD.obtenerUsuarios(criterio, function (usuarios) {
                 if (usuarios.length != 0) {
