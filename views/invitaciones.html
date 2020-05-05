@@ -17,7 +17,14 @@
 			<tr>
 				<td>{{ usuario.nombre }}</td>
 				<td> {{ usuario.apellido }}</td>
-				<td><a href="/cancion/modificar/{{ cancion._id.toString() }}">Modificar</a> <br></td>
+				<td><form method="post" action="/amigos/{{ usuario._id.toString() }}">
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<button type="submit" class="btn">Aceptar</button>
+						</div>
+					</div>
+				</form>
+				</td>
 			</tr>
 		{% endfor %}
 		</tbody>

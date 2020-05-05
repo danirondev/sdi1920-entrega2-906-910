@@ -5,6 +5,40 @@ module.exports = {
         this.mongo = mongo;
         this.app = app;
     },
+    insertarAmigo : function(amigo, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                let collection = db.collection('amigos');
+                collection.insert(amigo, function(err, result) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(result.ops[0]._id);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
+    obtenerAmigos : function(criterio,funcionCallback){
+        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                let collection = db.collection('amigos');
+                collection.find(criterio).toArray(function(err, amigos) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(amigos);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
     obtenerUsuariosPg : function(criterio,pg,funcionCallback){
         this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
             if (err) {
@@ -113,5 +147,22 @@ module.exports = {
                 });
             }
         });
-    }
+    },
+    eliminarInvitacion : function(criterio, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                let collection = db.collection('invitaciones');
+                collection.remove(criterio, function(err, result) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(result);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
 };
