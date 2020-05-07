@@ -39,6 +39,26 @@ module.exports = {
             }
         });
     },
+    obtenerAmigosPg : function(criterio,pg,funcionCallback){
+        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                let collection = db.collection('amigos');
+                collection.count(function(err, count){
+                    collection.find(criterio).skip( (pg-1)*5 ).limit( 5 )
+                        .toArray(function(err, amigos) {
+                            if (err) {
+                                funcionCallback(null);
+                            } else {
+                                funcionCallback(amigos, count);
+                            }
+                            db.close();
+                        });
+                });
+            }
+        });
+    },
     obtenerUsuariosPg : function(criterio,pg,funcionCallback){
         this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
             if (err) {
@@ -159,6 +179,40 @@ module.exports = {
                         funcionCallback(null);
                     } else {
                         funcionCallback(result);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
+    insertarMensaje : function(mensaje, funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                let collection = db.collection('mensajes');
+                collection.insert(mensaje, function(err, result) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(result.ops[0]._id);
+                    }
+                    db.close();
+                });
+            }
+        });
+    },
+    obtenerMensajes : function(criterio,funcionCallback){
+        this.mongo.MongoClient.connect(this.app.get('db'), function(err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                let collection = db.collection('mensajes');
+                collection.find(criterio).toArray(function(err, mensajes) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(mensajes);
                     }
                     db.close();
                 });
