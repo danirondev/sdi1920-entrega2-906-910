@@ -1,104 +1,95 @@
 module.exports = function(app, gestorBD) {
 
-    app.get("/api/conversacion/:email", function (req, res) {
-
-        if (req.body.texto.length==0){
-            res.json({
-                error: "El mensaje no puede estar vacio"
-            })
-        }
-        //let criterio={email:res.usuario};
-        usuarioValido(res.usuario, req.body.destino,function (valido) {
-       // listaAmigos(criterio,function (amigos) {
-            if (!valido){
+    app.get("/api/mensajes/:_id", function (req, res) {
+        var criterio = {
+            _id: gestorBD.mongo.ObjectID(req.params._id)
+        };
+        gestorBD.obtenerUsuarios(criterio,function (usuarios) {
+            if(usuarios==null || usuarios.length==0){
+                res.status(500);
                 res.json({
-                    error: "El usuario de destino no existe o no es tu amigo"
+                    error: "el usuario no existe"
                 })
-            } else {
-                var mensaje = {
-                    emisor: res.usuario,
-                    destino: req.body.destino,
-                    texto: req.body.texto,
-                    leido: false
+            }else {
+                let criterio2={
+                    $or: [
+                        {
+                            $and: [
+                                {emisor: res.usuario},
+                                {destino: usuarios[0].email}]
+                        },
+                        {
+                            $and: [
+                                {emisor: usuarios[0].email},
+                                {destino: res.usuario}]
+                        }
+                    ]
                 };
-                // ¿Validar nombre, genero, precio?
-                gestorBD.insertarMensaje(mensaje, function (id) {
-                    if (id == null) {
+                gestorBD.obtenerMensajes(criterio2, function (mensajes) {
+                    if (mensajes == null || mensajes.length==0) {
                         res.status(500);
                         res.json({
-                            error: "se ha producido un error"
+                            error: "No hay mensajes"
                         })
                     } else {
-                        res.status(201);
-                        res.json({
-                            mensaje: "mensaje insertado",
-                            _id: id
-                        })
+                        res.status(200);
+                        res.send(JSON.stringify(mensajes));
                     }
                 });
             }
-        //});
         });
     });
 
     app.post("/api/mensaje/", function (req, res) {
-
         if (req.body.destino==null || req.body.destino.length==0){
             res.json({
                 error: "El mensaje tiene que tener un destinatario"
             })
         }
-        //let criterio={email:res.usuario};
-        usuarioValido(res.usuario, req.body.destino,function (valido) {
-       // listaAmigos(criterio,function (amigos) {
-         //   if(amigos==null || amigos.length==0) {
-            if(!valido) {
+        let criterio={email:res.usuario};
+        listaAmigos(criterio,function (amigos) {
+            if(amigos==null || amigos.length==0) {
                 res.status(500);
                 res.json({
-                    error: "El destinatario no existe o no es tu amigo"
+                    error: "No tienes amigos agregados"
                 })
             } else {
-                var mensaje = {
-                    emisor: res.usuario,
-                    destino: req.body.destino,
-                    texto: req.body.texto,
-                    leido: false
-                };
-                gestorBD.insertarMensaje(mensaje, function (id) {
-                    if (id == null) {
-                        res.status(500);
-                        res.json({
-                            error: "se ha producido un error"
-                        })
-                    } else {
-                        res.status(201);
-                        res.json({
-                            mensaje: "mensaje insertado",
-                            _id: id
-                        })
+                let esAmigo = false;
+                for (i = 0; i < amigos.length; i++) {
+                    if (amigos[i] == req.body.destino) {
+                        esAmigo = true;
                     }
-                });
+                }
+                if (!esAmigo) {
+                    res.status(500);
+                    res.json({
+                        error: "El destinatario no existe o no es tu amigo"
+                    })
+                }else {
+                    var mensaje = {
+                        emisor: res.usuario,
+                        destino: req.body.destino,
+                        texto: req.body.texto,
+                        leido: false
+                    };
+                    gestorBD.insertarMensaje(mensaje, function (id) {
+                        if (id == null) {
+                            res.status(500);
+                            res.json({
+                                error: "se ha producido un error"
+                            })
+                        } else {
+                            res.status(201);
+                            res.json({
+                                mensaje: "mensaje insertado",
+                                _id: id
+                            })
+                        }
+                    });
+                }
             }
         });
     });
-
-    function usuarioValido(emisor,receptor, callback){
-       let criterio={
-           email: emisor
-       };
-       listaAmigos(criterio,function(amigos){
-           if(amigos==null)
-               callback(false);
-           else {
-               for (i = 0; i < amigos.length; i++) {
-                   if (amigos[i] == receptor) {
-                       callback(true);
-                   }
-               }
-               callback(false);
-           }
-       });
-    }
 
     function listaAmigos(criterio, funcionCallback){
         if(criterio==null)
@@ -117,7 +108,7 @@ module.exports = function(app, gestorBD) {
                         let vec_amigos = [];
                         for (i = 0; i < amigos.length; i++) {
                             if (amigos[i].amigoA_id.email === usuarios[0].email)
-                                vec_amigos.push(amigos[i].amigoB_id.email);
+                                vec_amigos.push(amigos[i].amigoB_id.email); //Guardamos su email
                             else
                                 vec_amigos.push(amigos[i].amigoA_id.email);
                         }

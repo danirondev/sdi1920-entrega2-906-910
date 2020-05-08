@@ -70,8 +70,8 @@ routerUsuarioToken.use(function(req, res, next) {
 });
 // Aplicar routerUsuarioToken
 app.use('/api/mensaje', routerUsuarioToken);
+app.use('/api/mensajes', routerUsuarioToken);
 app.use('/api/amigos', routerUsuarioToken);
-
 
 // routerUsuarioSession
 let routerUsuarioSession = express.Router();
