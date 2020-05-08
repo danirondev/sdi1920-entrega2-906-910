@@ -1,0 +1,83 @@
+<h2>Lista de amigos</h2>
+
+    <div id="widget-amigos">
+        <input type="text" class="form-control" placeholder="Filtrar por nombre"
+               id="filtro-nombre"/>
+        <button class="btn" onclick="cargarAmigosFiltrados()">Filtrar</button>
+        <button class="btn" onclick="cargarAmigos()">Resetear filtro</button>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th class="col-md-1"></th>
+            </tr>
+            </thead>
+            <tbody id="tablaCuerpo"></tbody>
+        </table>
+    </div>
+
+<script>
+    var amigos;
+
+    window.history.pushState("", "", "/cliente.html?w=amigos");
+    var URLbase = "https://localhost:8081/api";
+    function cargarAmigos() {
+        $.ajax({
+            url: URLbase + "/amigosW",
+            type: "GET",
+            data: {},
+            dataType: 'json',
+            headers: {"token": token},
+            success: function (respuesta) {
+                amigos = respuesta;
+                actualizarTabla(amigos);
+            },
+            error: function (error) {
+                $("#contenedor-principal").load("widget-login.html");
+            }
+        });
+    }
+
+    function cargarAmigosFiltrados(nombre) {
+        $.ajax({
+            url: URLbase + "/amigosW",
+            type: "GET",
+            data: {},
+            dataType: 'json',
+            headers: {"token": token},
+            success: function (respuesta) {
+                amigos = respuesta;
+                actualizarTablaFiltro(amigos, document.getElementById("filtro-nombre").value);
+            },
+            error: function (error) {
+                $("#contenedor-principal").load("widget-login.html");
+            }
+        });
+    }
+
+    function actualizarTabla(amigos) {
+        $("#tablaCuerpo").empty(); // Vaciar la tabla
+        for (i = 0; i < amigos.amigos_ids.length; i++) {
+            $("#tablaCuerpo").append(
+                "<tr id=" + amigos.amigos_ids[i] + ">" +
+                "<td>" + amigos.amigos_nombres[i] + "</td>" +
+                "<td>" + amigos.amigos_email[i] + "</td>" +
+                "</tr>");
+        }
+    }
+
+    function actualizarTablaFiltro(amigos, nombre) {
+        $("#tablaCuerpo").empty(); // Vaciar la tabla
+        for (i = 0; i < amigos.amigos_ids.length; i++) {
+            if (amigos.amigos_nombres[i] == nombre) {
+                $("#tablaCuerpo").append(
+                    "<tr id=" + amigos.amigos_ids[i] + ">" +
+                    "<td>" + amigos.amigos_nombres[i] + "</td>" +
+                    "<td>" + amigos.amigos_email[i] + "</td>" +
+                    "</tr>");
+            }
+        }
+    }
+    cargarAmigos();
+</script>
