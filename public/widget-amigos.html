@@ -19,7 +19,7 @@
 
 <script>
     var amigos;
-
+    var friendId;
     window.history.pushState("", "", "/cliente.html?w=amigos");
     var URLbase = "https://localhost:8081/api";
     function cargarAmigos() {
@@ -59,10 +59,12 @@
     function actualizarTabla(amigos) {
         $("#tablaCuerpo").empty(); // Vaciar la tabla
         for (i = 0; i < amigos.amigos_ids.length; i++) {
+            friendId = amigos.amigos_ids[i];
             $("#tablaCuerpo").append(
                 "<tr id=" + amigos.amigos_ids[i] + ">" +
                 "<td>" + amigos.amigos_nombres[i] + "</td>" +
                 "<td>" + amigos.amigos_email[i] + "</td>" +
+                "<td><button class='msgBtn' onclick='widgetMensajes()'>Mensajes</button></td>" +
                 "</tr>");
         }
     }
@@ -71,13 +73,23 @@
         $("#tablaCuerpo").empty(); // Vaciar la tabla
         for (i = 0; i < amigos.amigos_ids.length; i++) {
             if (amigos.amigos_nombres[i] == nombre) {
+                friendId = amigos.amigos_ids[i];
                 $("#tablaCuerpo").append(
                     "<tr id=" + amigos.amigos_ids[i] + ">" +
                     "<td>" + amigos.amigos_nombres[i] + "</td>" +
                     "<td>" + amigos.amigos_email[i] + "</td>" +
+                    "<td><button class='msgBtn' onclick='widgetMensajes()'>Mensajes</button></td>" +
                     "</tr>");
             }
         }
     }
+
+    function widgetMensajes() {
+        window.history.pushState("", "", "/cliente.html?w=" + friendId);
+        $("#contenedor-principal").load("widget-chat.html");
+    }
+    
     cargarAmigos();
+
+
 </script>

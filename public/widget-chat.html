@@ -1,0 +1,91 @@
+<div class="bodyWrapper">
+    <div class="currentChat">
+        <div class="currentChatHeader">
+            <div class="currentChatHeaderTitle">
+                <h3 id="currentChatHeaderTitleH3">Mensajes</h3>
+            </div>
+        </div>
+        <div class="currentChatContent">
+
+        </div>
+        <form  class="currentChatInput">
+            <input type="text" name="message" id="inputMessage"> <input
+                type="button" value="↩︎" onclick="enviaMensaje()" id="submitMessage">
+        </form>
+    </div>
+</div>
+
+<script>
+
+    function cargarMensajes() {
+        var url = new URL(window.location.href);
+        var friendID = url.searchParams.get("w");
+        var urlAjax = URLbase + "/mensajes/:" + friendID;
+        $.ajax({
+            url: urlAjax,
+            type: "GET",
+            data: {},
+            dataType: 'json',
+            headers: {"token": token},
+            success: function (respuesta) {
+                var convID = respuesta.conversation._id;
+                window.history.pushState("", "", "/cliente.html?w="+convID);
+                let convers= respuesta.conversation;
+                actualizarMensajes(convers);
+            },
+            error: function (error) {
+                if (error.status == 500) {
+                    $("#contenedor-principal").load("widget-login.html");
+                }
+            }
+        });
+    }
+
+
+    function enviaMensaje() {
+        var mensaje = $("#inputMessage").val();
+        var urlAjax = URLbase + "/mensaje/";
+        var url = new URL(window.location.href);
+        var convID = url.searchParams.get("w");
+        $.ajax({
+            url: urlAjax,
+            type: "POST",
+            data: {
+                message: mensaje,
+                id: convID
+            },
+            dataType: 'json',
+            headers: {token: token},
+            success: function (respuesta) {
+                $(".currentChatContent").append(
+                    "<div class='message sent'>" +
+                    "<div class='messageContent'>" + respuesta.mensaje.texto +
+                    "</div>"
+                );
+            },
+            error: function (error) {
+                $("#contenedor-principal").load("widget-login.html");
+            }
+        });
+    }
+
+    function actualizarMensajes(conversation) {
+        var mensajes = conversation.messages;
+        $("#currentChatContent").empty(); // Vaciar la tabla
+        for (i = 0; i < mensajes.length; i++) {
+            $(".currentChatContent").append(
+                "<div class='message sent'>" +
+                "<div class='messageContent'>" + mensajes[i].mensaje +
+                "</div>" +
+                "<div class='messageTime'>" + mensajes[i].date.toString() + "</div>" +
+                "</div>"
+            );
+        }
+        $("#currentChatHeaderTitleH3").html(conversation.sale.title);
+    }
+
+    cargarMensajes();
+
+    window.setInterval(cargarMensajes, 3000);
+
+</script>
