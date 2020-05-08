@@ -15,7 +15,7 @@ module.exports = function(app, swig, gestorBD) {
         res.redirect("/identificarse?mensaje=Te has desconectado");
     });
 
-    app.get("/listausuarios", function(req, res) {
+    app.get("/usuarios", function(req, res) {
         let criterio = {};
         if( req.query.busqueda != null ) {
             criterio = {
@@ -43,12 +43,11 @@ module.exports = function(app, swig, gestorBD) {
                         paginas.push(i);
                     }
                 }
-                let respuesta = swig.renderFile('views/listausuarios.html',
+                let respuesta = swig.renderFile('views/busuarios.html',
                     {
                         usuarios : usuarios,
                         paginas : paginas,
                         actual : pg,
-                        usuario_sesion :  req.session.usuario
                     });
                 res.send(respuesta);
             }
@@ -109,7 +108,7 @@ module.exports = function(app, swig, gestorBD) {
                     "&tipoMensaje=alert-danger ");
             } else {
                 req.session.usuario = usuarios[0].email;
-                res.redirect("/listausuarios");            }
+                res.redirect("/usuarios");            }
         });
     });
 };

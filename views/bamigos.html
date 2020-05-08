@@ -13,10 +13,10 @@
         </tr>
         </thead>
         <tbody>
-        {% for amigo in amigos %}
+        {% for usuario in usuarios %}
         <tr>
-            <td>{{ amigo.nombre {{ amigo.apellido }}}}</td>
-            <td> {{ amigo.email }}</td>
+            <td>{{ usuario.nombre }} {{ usuario.apellido }}</td>
+            <td> {{ usuario.email }}</td>
         </tr>
         {% endfor %}
         </tbody>

@@ -86,7 +86,7 @@ routerUsuarioSession.use(function(req, res, next) {
     }
 });
 //Aplicar routerUsuarioSession
-app.use("/listausuarios",routerUsuarioSession);
+app.use("/usuarios",routerUsuarioSession);
 app.use("/invitaciones",routerUsuarioSession);
 app.use("/amigos",routerUsuarioSession);
 
@@ -104,7 +104,7 @@ require("./routes/rinvitaciones.js")(app, swig, gestorBD); // (app, param1, para
 require("./routes/ramigos.js")(app, swig, gestorBD); // (app, param1, param2, etc.)
 require("./routes/raplicaciones.js")(app, gestorBD);
 require("./routes/rapimensajes.js")(app, gestorBD);
-
+require("./routes/rapiamigos.js")(app, gestorBD);
 
 app.get('/', function (req, res) {
     res.redirect('/identificarse');

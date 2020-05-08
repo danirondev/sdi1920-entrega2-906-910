@@ -4,7 +4,7 @@
 <!-- Búsqueda -->
 <div class="row">
     <div id="custom-search-input ">
-        <form method="get" action="/listausuarios" >
+        <form method="get" action="/usuarios" >
             <div class="input-group col-xs-8 col-sm-6 col-md-4 col-lg-5 pull-right">
                 <input type="text" class="search-query form-control"
                        placeholder="Nombre, apellido o email del usuario" name="busqueda"/>
@@ -18,34 +18,41 @@
     </div>
 </div>
 
-<h2>Usuarios de la Red Social</h2>
-<div class="row">
-    {% for usuario in usuarios %}
-    <div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
-        <div style="width: 200px">
-                <!-- http://www.socicon.com/generator.php -->
-                <div class="wrap">{{ usuario.nombre }} {{ usuario.apellido }}</div>
-                <div class="wrap">{{ usuario.email }}</div>
+<h2>Lista de usuarios de la aplicación</h2>
 
-            {% if usuario_sesion!=usuario.email %}
-            <form class="form-horizontal" method="post" action="/invitaciones/{{ usuario._id.toString() }}">
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Nombre y apellidos</th>
+            <th class="col-md-1">Email</th>
+            <th ></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for usuario in usuarios %}
+        <tr>
+            <td>{{ usuario.nombre }} {{ usuario.apellido }}</td>
+            <td> {{ usuario.email }}
+                <form method="post" action="/invitaciones/{{ usuario._id.toString() }}">
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn">Agregar amigo</button>
+                        <button type="submit" class="btn btn-primary">Agregar amigo</button>
                     </div>
                 </div>
             </form>
-            {% endif %}
-        </div>
-    </div>
-    {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>
 <!-- Paginación mostrar la actual y 2 anteriores y dos siguientes -->
 <div class="row text-center">
     <ul class="pagination">
         {% for pagina in paginas %}
         <li class="page-item" id="pi-{{ pagina}}">
-            <a class="page-Link" href="/listausuarios?pg={{ pagina }}">{{ pagina }}</a>
+            <a class="page-Link" href="/usuarios?pg={{ pagina }}">{{ pagina }}</a>
         </li>
         {% endfor %}
         <script>
