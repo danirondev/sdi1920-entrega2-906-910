@@ -20,7 +20,7 @@
     function cargarMensajes() {
         var url = new URL(window.location.href);
         var friendID = url.searchParams.get("w");
-        var urlAjax = URLbase + "/mensajes/:" + friendID;
+        var urlAjax = URLbase + "/mensajes/:" + friendID; //No accede bien a la URL. Preguntar.
         $.ajax({
             url: urlAjax,
             type: "GET",
@@ -28,9 +28,8 @@
             dataType: 'json',
             headers: {"token": token},
             success: function (respuesta) {
-                var convID = respuesta.conversation._id;
                 window.history.pushState("", "", "/cliente.html?w="+convID);
-                let convers= respuesta.conversation;
+                let convers= respuesta;
                 actualizarMensajes(convers);
             },
             error: function (error) {
@@ -41,7 +40,7 @@
         });
     }
 
-
+/*
     function enviaMensaje() {
         var mensaje = $("#inputMessage").val();
         var urlAjax = URLbase + "/mensaje/";
@@ -68,20 +67,16 @@
             }
         });
     }
-
+*/
     function actualizarMensajes(conversation) {
-        var mensajes = conversation.messages;
         $("#currentChatContent").empty(); // Vaciar la tabla
-        for (i = 0; i < mensajes.length; i++) {
+        for (i = 0; i < conversation.length; i++) {
             $(".currentChatContent").append(
                 "<div class='message sent'>" +
-                "<div class='messageContent'>" + mensajes[i].mensaje +
-                "</div>" +
-                "<div class='messageTime'>" + mensajes[i].date.toString() + "</div>" +
+                "<div class='messageContent'>" + conversation[i] +
                 "</div>"
             );
         }
-        $("#currentChatHeaderTitleH3").html(conversation.sale.title);
     }
 
     cargarMensajes();
