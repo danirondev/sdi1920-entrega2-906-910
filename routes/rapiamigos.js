@@ -2,9 +2,9 @@ module.exports = function(app, gestorBD) {
 
     app.get("/api/amigos/", function (req, res) {
         var criterio = {
-            email: res.usuario};
-        obtenerIdUser(criterio,function (id) {
-            gestorBD.obtenerAmigos(id, function (amigos) {
+            email: res.usuario
+        };
+            listaAmigos(criterio, function (amigos) {
                 if (amigos == null) {
                     res.status(500);
                     res.json({
@@ -12,22 +12,37 @@ module.exports = function(app, gestorBD) {
                     })
                 } else {
                     res.status(200);
-                    res.send(JSON.stringify(amigos));
+                    res.send(JSON.stringify(amigos)); //Solo mostramos su email porque así lo determinamos en la funcion listaAmigos
                 }
             });
-        });
     });
-//Funcion que obtiene el id tipo object dado un criterio que en este caso sería el email
-    function obtenerIdUser(criterio, funcionCallback){
-        gestorBD.obtenerUsuarios(criterio,function(usuarios){
-            if(usuarios.length==0)
-                funcionCallback(null);
-            else{
-                let criterio2={
-                    usuario_id :  gestorBD.mongo.ObjectID(usuarios[0]._id)
-                };
-                funcionCallback(criterio2);
-            }
-        })
+
+    function listaAmigos(criterio, funcionCallback){
+        if(criterio==null)
+            funcionCallback(null);
+        else {
+            gestorBD.obtenerUsuarios(criterio, function (usuarios) {
+                if (usuarios.length == 0)
+                    funcionCallback(null);
+                else {
+                    let criterio2 = {
+                        $or: [
+                            {amigoA_id: usuarios[0]},
+                            {amigoB_id: usuarios[0]}]
+                    };
+                    gestorBD.obtenerAmigos(criterio2, function (amigos) {
+                        let vec_amigos = [];
+                        for (i = 0; i < amigos.length; i++) {
+                            if (amigos[i].amigoA_id.email === usuarios[0].email)
+                                vec_amigos.push(amigos[i].amigoB_id.email); //Guardamos su email
+                            else
+                                vec_amigos.push(amigos[i].amigoA_id.email);
+                        }
+                        funcionCallback(vec_amigos);
+                    });
+                }
+            });
+        }
     }
 };
+
