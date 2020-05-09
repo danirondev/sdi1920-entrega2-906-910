@@ -31,8 +31,6 @@
             dataType: 'json',
             headers: {"token": token},
             success: function (respuesta) {
-                console.log("FUNCIONA LOL");
-                window.history.pushState("", "", "/cliente.html?w="+friendID);
                 let convers= respuesta;
                 let mensaje = "No hay mensajes";
                 JSON.stringify(mensaje);
@@ -51,25 +49,25 @@
         });
     }
 
-/*
     function enviaMensaje() {
         var mensaje = $("#inputMessage").val();
         var urlAjax = URLbase + "/mensaje/";
         var url = new URL(window.location.href);
-        var convID = url.searchParams.get("w");
+        var friendEmail = url.searchParams.get("e");
         $.ajax({
             url: urlAjax,
             type: "POST",
             data: {
-                message: mensaje,
-                id: convID
+                texto: mensaje,
+                destino: friendEmail
             },
             dataType: 'json',
-            headers: {token: token},
+            headers: {"token": token},
             success: function (respuesta) {
+                console.log(respuesta);
                 $(".currentChatContent").append(
                     "<div class='message sent'>" +
-                    "<div class='messageContent'>" + respuesta.mensaje.texto +
+                    "<div class='messageContent'>" + respuesta.mensaje +
                     "</div>"
                 );
             },
@@ -78,7 +76,7 @@
             }
         });
     }
-*/
+
     function actualizarMensajesUno(conversation) {
         $(".currentChatContent").empty(); // Vaciar la tabla
         for (i = 0; i < conversation[0].length; i++) {

@@ -5,6 +5,7 @@
                id="filtro-nombre"/>
         <button class="btn" onclick="cargarAmigosFiltrados()">Filtrar</button>
         <button class="btn" onclick="cargarAmigos()">Resetear filtro</button>
+
         <table class="table table-hover">
             <thead>
             <tr>
@@ -18,7 +19,9 @@
     </div>
 
 <script>
-    var amigos;
+    var amigos_ids = [];
+    var amigos_nombres = [];
+    var amigos_emails = [];
     window.history.pushState("", "", "/cliente.html?w=amigos");
     var URLbase = "https://localhost:8081/api";
     function cargarAmigos() {
@@ -58,11 +61,14 @@
     function actualizarTabla(amigos) {
         $("#tablaCuerpo").empty(); // Vaciar la tabla
         for (i = 0; i < amigos.amigos_ids.length; i++) {
+            amigos_ids.push(amigos.amigos_ids[i]);
+            amigos_nombres.push(amigos.amigos_nombres[i]);
+            amigos_emails.push(amigos.amigos_email[i]);
             $("#tablaCuerpo").append(
                 "<tr id=" + amigos.amigos_ids[i] + ">" +
                 "<td>" + amigos.amigos_nombres[i] + "</td>" +
                 "<td>" + amigos.amigos_email[i] + "</td>" +
-                "<td><a class='btn btn-info messageButton' onclick=widgetMensajes('" + amigos.amigos_ids[i] + "')>Mensajes</a></td>" +
+                "<td><a class='btn btn-info messageButton' onclick=widgetMensajes('" + i + "')>Mensajes</a></td>" +
                 "</tr>");
         }
     }
@@ -70,19 +76,24 @@
     function actualizarTablaFiltro(amigos, nombre) {
         $("#tablaCuerpo").empty(); // Vaciar la tabla
         for (i = 0; i < amigos.amigos_ids.length; i++) {
+            amigos_ids.push(amigos.amigos_ids[i]);
+            amigos_nombres.push(amigos.amigos_nombres[i]);
+            amigos_emails.push(amigos.amigos_email[i]);
             if (amigos.amigos_nombres[i] == nombre) {
                 $("#tablaCuerpo").append(
                     "<tr id=" + amigos.amigos_ids[i] + ">" +
                     "<td>" + amigos.amigos_nombres[i] + "</td>" +
                     "<td>" + amigos.amigos_email[i] + "</td>" +
-                    "<td><a class='btn btn-info messageButton' onclick=widgetMensajes('" + amigos.amigos_ids[i] + "')>Mensajes</a></td>" +
+                    "<td><a class='btn btn-info messageButton' onclick=widgetMensajes('" + i + "')>Mensajes</a></td>" +
                     "</tr>");
             }
         }
     }
 
-    function widgetMensajes(friendId) {
-        window.history.pushState("", "", "/cliente.html?w=" + friendId);
+    function widgetMensajes(valor) {
+        let friendId = amigos_ids[valor];
+        let friendEmail = amigos_emails[valor];
+        window.history.pushState("", "", "/cliente.html?w=" + friendId + "&e=" + friendEmail);
         $("#contenedor-principal").load("widget-chat.html");
     }
     
