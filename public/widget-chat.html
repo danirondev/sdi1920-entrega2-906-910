@@ -1,26 +1,29 @@
-<div class="bodyWrapper">
-    <div class="currentChat">
-        <div class="currentChatHeader">
-            <div class="currentChatHeaderTitle">
-                <h3 id="currentChatHeaderTitleH3">Mensajes</h3>
+<div id="widget-chat">
+    <div class="bodyWrapper">
+        <div class="currentChat">
+            <div class="currentChatHeader">
+                <div class="currentChatHeaderTitle">
+                    <h3 id="currentChatHeaderTitleH3">Mensajes</h3>
+                </div>
             </div>
-        </div>
-        <div class="currentChatContent">
+            <div class="currentChatContent">
 
+            </div>
+            <form  class="currentChatInput">
+                <input type="text" name="message" id="inputMessage"> <input
+                    type="button" value="↩︎" onclick="enviaMensaje()" id="submitMessage">
+            </form>
+            <button class="btn" onclick="cargarAmigos()">Volver</button>
         </div>
-        <form  class="currentChatInput">
-            <input type="text" name="message" id="inputMessage"> <input
-                type="button" value="↩︎" onclick="enviaMensaje()" id="submitMessage">
-        </form>
     </div>
 </div>
-
 <script>
-
+    var intervalID;
     function cargarMensajes() {
         var url = new URL(window.location.href);
         var friendID = url.searchParams.get("w");
-        var urlAjax = URLbase + "/mensajes/:" + friendID; //No accede bien a la URL. Preguntar.
+        var URLbase = "https://localhost:8081/api";
+        var urlAjax = URLbase + "/mensajes/" + friendID; //Está bien
         $.ajax({
             url: urlAjax,
             type: "GET",
@@ -28,11 +31,19 @@
             dataType: 'json',
             headers: {"token": token},
             success: function (respuesta) {
-                window.history.pushState("", "", "/cliente.html?w="+convID);
+                console.log("FUNCIONA LOL");
+                window.history.pushState("", "", "/cliente.html?w="+friendID);
                 let convers= respuesta;
-                actualizarMensajes(convers);
+                let mensaje = "No hay mensajes";
+                JSON.stringify(mensaje);
+                if (convers === mensaje) {
+                    actualizarMensajesUno(convers);
+                } else {
+                    actualizarMensajes(convers);
+                }
             },
             error: function (error) {
+
                 if (error.status == 500) {
                     $("#contenedor-principal").load("widget-login.html");
                 }
@@ -68,19 +79,35 @@
         });
     }
 */
-    function actualizarMensajes(conversation) {
-        $("#currentChatContent").empty(); // Vaciar la tabla
-        for (i = 0; i < conversation.length; i++) {
+    function actualizarMensajesUno(conversation) {
+        $(".currentChatContent").empty(); // Vaciar la tabla
+        for (i = 0; i < conversation[0].length; i++) {
             $(".currentChatContent").append(
                 "<div class='message sent'>" +
-                "<div class='messageContent'>" + conversation[i] +
+                "<div class='messageContent'>" + conversation +
                 "</div>"
             );
         }
     }
 
+    function actualizarMensajes(conversation) {
+        $(".currentChatContent").empty(); // Vaciar la tabla
+        for (i = 0; i < conversation.length; i++) {
+            $(".currentChatContent").append(
+                "<div class='message sent'>" +
+                "<div class='messageContent'>" + conversation[i].texto+
+                "</div>"
+            );
+        }
+    }
+
+    function cargarAmigos(){
+        window.clearInterval(intervalID);
+        $("#contenedor-principal").load("widget-amigos.html");
+    }
+
     cargarMensajes();
 
-    window.setInterval(cargarMensajes, 3000);
+    intervalID = window.setInterval(cargarMensajes, 6000);
 
 </script>

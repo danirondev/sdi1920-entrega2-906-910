@@ -70,7 +70,7 @@ routerUsuarioToken.use(function(req, res, next) {
 });
 // Aplicar routerUsuarioToken
 app.use('/api/mensaje', routerUsuarioToken);
-app.use('/api/mensajes', routerUsuarioToken);
+app.use('/api/mensajes/:_id', routerUsuarioToken);
 app.use('/api/amigos', routerUsuarioToken);
 app.use('/api/amigosW', routerUsuarioToken);
 

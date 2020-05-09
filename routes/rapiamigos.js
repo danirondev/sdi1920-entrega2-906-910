@@ -81,14 +81,15 @@ module.exports = function(app, gestorBD) {
                         let vec_amigos_ids = [];
                         for (i = 0; i < amigos.length; i++) {
                             if (amigos[i].amigoA_id.email === usuarios[0].email) {
-                                vec_amigos_ids.push(i);
+                                vec_amigos_ids.push(amigos[i].amigoB_id._id); //Guardamos su id
                                 vec_amigos_email.push(amigos[i].amigoB_id.email); //Guardamos su email
                                 vec_amigos_nombre.push(amigos[i].amigoB_id.nombre); //Guardamos su nombre
                             } else {
-                                vec_amigos_ids.push(i);
+                                vec_amigos_ids.push(amigos[i].amigoA_id._id);
                                 vec_amigos_email.push(amigos[i].amigoA_id.email);
                                 vec_amigos_nombre.push(amigos[i].amigoA_id.nombre); }
                         }
+
                         JSON.stringify(vec_amigos_email);
                         JSON.stringify(vec_amigos_nombre);
                         JSON.stringify(vec_amigos_ids);

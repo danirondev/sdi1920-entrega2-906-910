@@ -1,6 +1,7 @@
 module.exports = function(app, gestorBD) {
 
     app.get("/api/mensajes/:_id", function (req, res) {
+        var mensajeDefault = false;
         var criterio = {
             _id: gestorBD.mongo.ObjectID(req.params._id)
         };
@@ -26,11 +27,11 @@ module.exports = function(app, gestorBD) {
                     ]
                 };
                 gestorBD.obtenerMensajes(criterio2, function (mensajes) {
-                    if (mensajes == null || mensajes.length==0) {
-                        res.status(500);
-                        res.json({
-                            error: "No hay mensajes"
-                        })
+                    if (!mensajeDefault && (mensajes == null || mensajes.length==0)) {
+                        let mensaje = "No hay mensajes";
+                        mensajeDefault = true;
+                        res.status(200);
+                        res.send(JSON.stringify(mensaje));
                     } else {
                         res.status(200);
                         res.send(JSON.stringify(mensajes));
