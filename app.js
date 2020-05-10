@@ -13,6 +13,15 @@ app.use(function(req, res, next) {
     // Debemos especificar todas las headers que se aceptan. Content-Type , token
     next();
 });
+
+let log4js = require('log4js');
+log4js.configure({
+    appenders: {sdi: {type: 'file', filename: 'RedSocial.log'}},
+    categories: {default: {appenders: ['sdi'], level: 'trace'}}
+});
+let logger = log4js.getLogger('sdi');
+app.set('logger', logger);
+
 var jwt = require('jsonwebtoken');
 app.set('jwt',jwt);
 
@@ -82,7 +91,7 @@ routerUsuarioSession.use(function(req, res, next) {
         // dejamos correr la petición
         next();
     } else {
-        console.log("va a : "+req.session.destino)
+        console.log("va a : "+req.session.destino);
         res.redirect("/identificarse");
     }
 });
@@ -90,7 +99,6 @@ routerUsuarioSession.use(function(req, res, next) {
 app.use("/usuarios",routerUsuarioSession);
 app.use("/invitaciones",routerUsuarioSession);
 app.use("/amigos",routerUsuarioSession);
-
 
 app.use(express.static('public'));
 // Variables

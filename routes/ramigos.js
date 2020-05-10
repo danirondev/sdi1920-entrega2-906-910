@@ -1,8 +1,8 @@
 module.exports = function(app, swig, gestorBD) {
 
     app.get("/amigos", function(req, res) {
-        let pg = parseInt(req.query.pg); // Es String !!!
-        if ( req.query.pg == null) { // Puede no venir el param
+        let pg = parseInt(req.query.pg);
+        if ( req.query.pg == null) {
             pg = 1;
         }
         let criterio = {
@@ -10,38 +10,37 @@ module.exports = function(app, swig, gestorBD) {
         };
         gestorBD.obtenerUsuarios(criterio,function (usuarios) {
             if(usuarios.length==0)
-                res.send("Error al listar ");
+                res.redirect("/usuarios?mensaje=Ha ocurrido un error&tipoMensaje=alert-danger ");
             else {
                 let criterio2={$or: [
                         { amigoA_id :  usuarios[0]},
                         { amigoB_id :  usuarios[0]}]
                 };
                 gestorBD.obtenerAmigosPg(criterio2, pg, function (amigos, total) {
-                    //Aquí seguir con el código
-                    let ultimaPg = total / 5;
-                    if (total % 5 > 0) { // Sobran decimales
-                        ultimaPg = ultimaPg + 1;
-                    }
-                    let paginas = []; // paginas mostrar
-                    for (let i = pg - 2; i <= pg + 2; i++) {
-                        if (i > 0 && i <= ultimaPg) {
-                            paginas.push(i);
+                        let ultimaPg = total / 5;
+                        if (total % 5 > 0) { // Sobran decimales
+                            ultimaPg = ultimaPg + 1;
                         }
-                    }
-                    let vec_amigos = [];
-                    for (i = 0; i < amigos.length; i++) {
-                        if (amigos[i].amigoA_id.email === usuarios[0].email)
-                            vec_amigos.push(amigos[i].amigoB_id);
-                        else
-                            vec_amigos.push(amigos[i].amigoA_id);
-                    }
-                    let respuesta = swig.renderFile('views/bamigos.html',
-                        {
-                            usuarios: vec_amigos,
-                            paginas: paginas,
-                            actual: pg,
-                        });
-                    res.send(respuesta);
+                        let paginas = []; // paginas mostrar
+                        for (let i = pg - 2; i <= pg + 2; i++) {
+                            if (i > 0 && i <= ultimaPg) {
+                                paginas.push(i);
+                            }
+                        }
+                        let vec_amigos = [];
+                        for (i = 0; i < amigos.length; i++) {
+                            if (amigos[i].amigoA_id.email === usuarios[0].email)
+                                vec_amigos.push(amigos[i].amigoB_id);
+                            else
+                                vec_amigos.push(amigos[i].amigoA_id);
+                        }
+                        let respuesta = swig.renderFile('views/bamigos.html',
+                            {
+                                usuarios: vec_amigos,
+                                paginas: paginas,
+                                actual: pg,
+                            });
+                        res.send(respuesta);
                 });
             }
         });
@@ -54,7 +53,7 @@ module.exports = function(app, swig, gestorBD) {
         };
         gestorBD.obtenerUsuarios(criterio, function (usuarios) {
             if(usuarios.length==0)
-                res.redirect("/usuarios");
+                res.redirect("/usuarios?mensaje=Ha ocurrido un error&tipoMensaje=alert-danger");
             else{
                 let criterio2={
                     amigoA_id :  usuarios[0],
@@ -62,20 +61,28 @@ module.exports = function(app, swig, gestorBD) {
                 };
                 gestorBD.insertarAmigo(criterio2,function (id) {
                     if (id == null) {
-                        res.send("Error al insertar amigo");
+                        res.redirect("/amigos?mensaje=Ha ocurrido un error&tipoMensaje=alert-danger");
                     } else {
                         obtenerEmailUser(gestorBD.mongo.ObjectID(req.params.usuario_id),function(emailUser){
-                            //PROBLEMA RESUELTO PONER EL CRITERIO DE ELIMINACION DE FORMA UNICA Y QUE CUMPLA LAS DOS CONDICIONES
-                            let criterio_eliminacion={$and: [
-                                    { emisor : emailUser},
-                                    {usuario_id : usuarios[1]._id}]
+                           let usuarioValido;
+                            if(usuarios[1].email==req.session.usuario) {
+                                usuarioValido=usuarios[1]._id;
+                            }else{
+                                usuarioValido=usuarios[0]._id;
+                            }
+                            let criterio_eliminacion={
+                                $and: [
+                                    {emisor: emailUser},
+                                    {usuario_id: usuarioValido}]
                             };
-                        gestorBD.eliminarInvitacion(criterio_eliminacion,function (invitaciones) {
-                            if(invitaciones==null){
-                                res.send("Error");
-                            }else
-                                res.redirect("/invitaciones");
-                        });
+                            app.get('logger').info("El usuario "+req.session.usuario+" ha aceptado la solicitud de "+emailUser);
+                            gestorBD.eliminarInvitacion(criterio_eliminacion,function (invitaciones) {
+                                if(invitaciones==null){
+                                    res.send("Error");
+                                }else {
+                                    res.redirect("/invitaciones");
+                                }
+                            });
                         });
                     }
                 })
