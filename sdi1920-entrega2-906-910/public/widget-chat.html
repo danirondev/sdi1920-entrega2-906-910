@@ -71,6 +71,7 @@
                     "<div class='messageContent'>" + respuesta.mensaje +
                     "</div>"
                 );
+                $("#inputMessage").val(""); //Limpiamos la caja de mensajes
             },
             error: function (error) {
                 $("#contenedor-principal").load("widget-login.html");
@@ -94,8 +95,8 @@
         var friendEmail = url.searchParams.get("e");
         $(".currentChatContent").empty(); // Vaciar la tabla
         for (i = 0; i < conversation.length; i++) {
-            if (!conversation[i].leido) leidoS = "No leído";
-            else leidoS = "Leído";
+            if (!conversation[i].leido) leidoS = "No leido";
+            else leidoS = "Leido";
                 if (conversation[i].destino.toString() != friendEmail.toString() && !conversation[i].leido) { //Si el mensaje es para mi
                     let friendID = url.searchParams.get("w");
                     $.ajax({
@@ -115,11 +116,11 @@
                         }
                     });
                     conversation[i].leido = true; //He leido el mensaje
-                    leidoS = "Leído";
+                    leidoS = "Leido";
                 }
             $(".currentChatContent").append(
                 "<div class='message sent'>" +
-                "<div class='messageContent'>" + conversation[i].texto + "      " + "--" + leidoS + "--" +
+                "<div class='messageContent'>" + conversation[i].texto + " --" + leidoS + "--" +
                 "</div>"
             );
         }

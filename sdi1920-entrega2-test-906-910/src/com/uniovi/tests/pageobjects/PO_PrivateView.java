@@ -96,5 +96,4 @@ public class PO_PrivateView extends PO_NavView{
 		By boton = By.id("submitMessage");
 		driver.findElement(boton).click();
 	}
-	
 }

@@ -89,3 +89,125 @@
 [2020-05-11T03:46:36.002] [INFO] sdi - Usuario: pepe@email.com desconectado
 [2020-05-11T03:47:10.807] [INFO] sdi - Usuario pepe@email.com identificado correctamente
 [2020-05-11T03:48:31.435] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T13:35:32.396] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T13:41:18.339] [INFO] sdi - Nuevo usuario registrado: eduardo@email.com
+[2020-05-11T13:41:31.989] [ERROR] sdi - Error de registro: las contraseñas no coinciden
+[2020-05-11T13:41:35.366] [ERROR] sdi - Error de registro: email existente
+[2020-05-11T13:45:26.040] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T13:47:11.643] [INFO] sdi - Nuevo usuario registrado: eduardo@email.com
+[2020-05-11T13:47:13.426] [INFO] sdi - Usuario eduardo@email.com identificado correctamente
+[2020-05-11T13:47:14.550] [INFO] sdi - Usuario: eduardo@email.com desconectado
+[2020-05-11T13:47:26.880] [ERROR] sdi - Error de registro: las contraseñas no coinciden
+[2020-05-11T13:47:30.707] [ERROR] sdi - Error de registro: email existente
+[2020-05-11T13:47:32.708] [INFO] sdi - Usuario eduardo@email.com identificado correctamente
+[2020-05-11T13:47:34.016] [INFO] sdi - Usuario: eduardo@email.com desconectado
+[2020-05-11T13:47:37.935] [ERROR] sdi - Error de identificacion de usuario
+[2020-05-11T13:47:39.924] [ERROR] sdi - Error de identificacion de usuario
+[2020-05-11T13:47:42.065] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T13:47:43.027] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T13:47:58.578] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T13:48:00.471] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T13:48:17.601] [INFO] sdi - Usuario eduardo@email.com identificado correctamente
+[2020-05-11T13:50:48.757] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T13:53:40.838] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T13:54:31.666] [ERROR] sdi - Error de registro: email existente
+[2020-05-11T13:54:53.210] [ERROR] sdi - Error de registro: las contraseñas no coinciden
+[2020-05-11T13:54:56.670] [ERROR] sdi - Error de registro: email existente
+[2020-05-11T13:54:58.704] [INFO] sdi - Usuario eduardo@email.com identificado correctamente
+[2020-05-11T13:54:59.673] [INFO] sdi - Usuario: eduardo@email.com desconectado
+[2020-05-11T13:55:04.117] [ERROR] sdi - Error de identificacion de usuario
+[2020-05-11T13:55:06.472] [ERROR] sdi - Error de identificacion de usuario
+[2020-05-11T13:55:09.109] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T13:55:10.296] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T13:55:13.063] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T13:55:27.534] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T13:55:30.146] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T13:55:48.720] [INFO] sdi - Usuario eduardo@email.com identificado correctamente
+[2020-05-11T14:02:44.129] [INFO] sdi - Nuevo usuario registrado: eduardo@email.com
+[2020-05-11T14:02:45.615] [INFO] sdi - Usuario eduardo@email.com identificado correctamente
+[2020-05-11T14:02:46.526] [INFO] sdi - Usuario: eduardo@email.com desconectado
+[2020-05-11T14:03:01.548] [ERROR] sdi - Error de registro: las contraseñas no coinciden
+[2020-05-11T14:03:04.581] [ERROR] sdi - Error de registro: email existente
+[2020-05-11T14:03:06.680] [INFO] sdi - Usuario eduardo@email.com identificado correctamente
+[2020-05-11T14:03:07.493] [INFO] sdi - Usuario: eduardo@email.com desconectado
+[2020-05-11T14:03:11.091] [ERROR] sdi - Error de identificacion de usuario
+[2020-05-11T14:03:13.002] [ERROR] sdi - Error de identificacion de usuario
+[2020-05-11T14:03:14.938] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T14:03:16.234] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T14:03:18.647] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T14:03:35.326] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T14:03:40.659] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T14:03:44.649] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T14:03:46.904] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T14:03:50.303] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T14:03:53.131] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T14:03:55.699] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T14:03:58.842] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T14:04:04.569] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T14:04:06.772] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T14:04:10.839] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T14:04:13.061] [INFO] sdi - Usuario eduardo@email.com identificado correctamente
+[2020-05-11T14:04:23.320] [INFO] sdi - Usuario eduardo@email.com identificado correctamente
+[2020-05-11T14:04:33.783] [INFO] sdi - Usuario eduardo@email.com identificado correctamente
+[2020-05-11T14:07:20.691] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T14:10:29.434] [INFO] sdi - Nuevo usuario registrado: eduardo@email.com
+[2020-05-11T14:10:31.012] [INFO] sdi - Usuario eduardo@email.com identificado correctamente
+[2020-05-11T14:10:32.357] [INFO] sdi - Usuario: eduardo@email.com desconectado
+[2020-05-11T14:10:40.899] [ERROR] sdi - Error de registro: las contraseñas no coinciden
+[2020-05-11T14:10:44.119] [ERROR] sdi - Error de registro: email existente
+[2020-05-11T14:10:46.681] [INFO] sdi - Usuario eduardo@email.com identificado correctamente
+[2020-05-11T14:10:47.494] [INFO] sdi - Usuario: eduardo@email.com desconectado
+[2020-05-11T14:10:51.452] [ERROR] sdi - Error de identificacion de usuario
+[2020-05-11T14:10:53.671] [ERROR] sdi - Error de identificacion de usuario
+[2020-05-11T14:10:55.706] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T14:10:56.583] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T14:10:59.081] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T14:11:12.376] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T14:11:14.473] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T14:11:17.600] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T14:11:19.826] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T14:11:23.127] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T14:11:25.674] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T14:11:27.693] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T14:11:29.849] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T14:11:34.897] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T14:11:37.153] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T14:11:41.530] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T14:11:43.721] [INFO] sdi - Usuario eduardo@email.com identificado correctamente
+[2020-05-11T14:11:46.738] [INFO] sdi - Usuario: eduardo@email.com desconectado
+[2020-05-11T14:11:48.976] [INFO] sdi - Usuario eduardo@email.com identificado correctamente
+[2020-05-11T14:11:52.619] [INFO] sdi - El usuario eduardo@email.com ha aceptado la solicitud de pepe@email.com
+[2020-05-11T14:11:58.100] [INFO] sdi - Usuario: eduardo@email.com desconectado
+[2020-05-11T14:12:00.625] [INFO] sdi - Usuario eduardo@email.com identificado correctamente
+[2020-05-11T14:13:53.875] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T14:13:58.639] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T14:16:29.009] [INFO] sdi - Nuevo usuario registrado: eduardo@email.com
+[2020-05-11T14:16:33.513] [INFO] sdi - Usuario eduardo@email.com identificado correctamente
+[2020-05-11T14:16:34.406] [INFO] sdi - Usuario: eduardo@email.com desconectado
+[2020-05-11T14:16:42.911] [ERROR] sdi - Error de registro: las contraseñas no coinciden
+[2020-05-11T14:16:46.076] [ERROR] sdi - Error de registro: email existente
+[2020-05-11T14:16:48.125] [INFO] sdi - Usuario eduardo@email.com identificado correctamente
+[2020-05-11T14:16:49.976] [INFO] sdi - Usuario: eduardo@email.com desconectado
+[2020-05-11T14:16:53.918] [ERROR] sdi - Error de identificacion de usuario
+[2020-05-11T14:16:56.487] [ERROR] sdi - Error de identificacion de usuario
+[2020-05-11T14:16:58.817] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T14:16:59.968] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T14:17:02.488] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T14:17:15.684] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T14:17:17.813] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T14:17:21.393] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T14:17:23.520] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T14:17:25.384] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T14:17:27.620] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T14:17:29.470] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T14:17:31.731] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T14:17:36.343] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T14:17:38.644] [INFO] sdi - Usuario pepe@email.com identificado correctamente
+[2020-05-11T14:17:43.197] [INFO] sdi - Usuario: pepe@email.com desconectado
+[2020-05-11T14:17:45.625] [INFO] sdi - Usuario eduardo@email.com identificado correctamente
+[2020-05-11T14:17:48.595] [INFO] sdi - Usuario: eduardo@email.com desconectado
+[2020-05-11T14:17:50.738] [INFO] sdi - Usuario eduardo@email.com identificado correctamente
+[2020-05-11T14:17:55.478] [INFO] sdi - El usuario eduardo@email.com ha aceptado la solicitud de pepe@email.com
+[2020-05-11T14:18:00.732] [INFO] sdi - Usuario: eduardo@email.com desconectado
+[2020-05-11T14:18:02.833] [INFO] sdi - Usuario eduardo@email.com identificado correctamente
+[2020-05-11T14:18:05.569] [INFO] sdi - Usuario: eduardo@email.com desconectado

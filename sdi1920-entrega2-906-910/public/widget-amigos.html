@@ -26,6 +26,7 @@
     var amigos_mensajesNoLeidos = [];
     var URLbase = "https://localhost:8081/api";
     var amigos;
+    var filtro = false;
     function cargarAmigos() {
         $.ajax({
             url: URLbase + "/amigosW",
@@ -35,7 +36,8 @@
             headers: {"token": token},
             success: function (respuesta) {
                 amigos = respuesta;
-                actualizarTabla(amigos);
+                if (!filtro) actualizarTabla(amigos);
+                else actualizarTablaFiltro(amigos);
             },
             error: function (error) {
                 $("#contenedor-principal").load("widget-login.html");
@@ -44,6 +46,9 @@
     }
 
     function cargarAmigosFiltrados(nombre) {
+        filtro = true;
+        primera = true;
+        window.clearInterval(intervalID);
         $.ajax({
             url: URLbase + "/amigosW",
             type: "GET",
@@ -63,6 +68,7 @@
     function actualizarTabla(amigos) {
         $("#tablaCuerpo").empty(); // Vaciar la tabla
         for (i = 0; i < amigos.amigos_ids.length; i++) {
+            let nombreMensajes = "msg"+amigos.amigos_nombres[i];
             if (primera) {
                 amigos_ids.push(amigos.amigos_ids[i]);
                 amigos_nombres.push(amigos.amigos_nombres[i]);
@@ -74,7 +80,7 @@
                 "<tr id=" + amigos.amigos_ids[i] + ">" +
                 "<td>" + amigos.amigos_nombres[i] + "</td>" +
                 "<td>" + amigos.amigos_email[i] + "</td>" +
-                "<td>" + "Mensajes no leidos: " + amigos_mensajesNoLeidos[i] + "</td>" +
+                "<td id='"+nombreMensajes+"'>" + "Mensajes no leidos: " + amigos_mensajesNoLeidos[i] + "</td>" +
                 "<td><a id='"+amigos_nombres[i]+"' class='btn btn-info messageButton' onclick=widgetMensajes('" + i + "')>Mensajes</a></td>" +
                 "</tr>");
         }
@@ -88,6 +94,7 @@
         amigos_mensajesNoLeidos = [];
         $("#tablaCuerpo").empty(); // Vaciar la tabla
         for (i = 0; i < amigos.amigos_ids.length; i++) {
+            let nombreMensajes = "msg"+amigos.amigos_nombres[i];
             if (primera) {
                 amigos_ids.push(amigos.amigos_ids[i]);
                 amigos_nombres.push(amigos.amigos_nombres[i]);
@@ -100,7 +107,7 @@
                     "<tr id=" + amigos.amigos_ids[i] + ">" +
                     "<td>" + amigos.amigos_nombres[i] + "</td>" +
                     "<td>" + amigos.amigos_email[i] + "</td>" +
-                    "<td>" + "Mensajes no leidos: " + amigos_mensajesNoLeidos[i] + "</td>" +
+                    "<td id='"+nombreMensajes+"'>" + "Mensajes no leidos: " + amigos_mensajesNoLeidos[i] + "</td>" +
                     "<td><a id='"+amigos_nombres[i]+"' class='btn btn-info messageButton' onclick=widgetMensajes('" + i + "')>Mensajes</a></td>" +
                     "</tr>");
             }
@@ -163,11 +170,29 @@
     function actualizarSoloTabla(){
         $("#tablaCuerpo").empty(); // Vaciar la tabla
         for (i = 0; i < amigos.amigos_ids.length; i++) {
+            cargarMensajes(i);
+            let nombreMensajes = "msg"+amigos_nombres[i];
             $("#tablaCuerpo").append(
                 "<tr id=" + amigos.amigos_ids[i] + ">" +
                 "<td>" + amigos.amigos_nombres[i] + "</td>" +
                 "<td>" + amigos.amigos_email[i] + "</td>" +
-                "<td>" + "Mensajes no leidos: " + amigos_mensajesNoLeidos[i] + "</td>" +
+                "<td id='"+nombreMensajes+"'>" + "Mensajes no leidos: " + amigos_mensajesNoLeidos[i] + "</td>" +
+                "<td><a id='"+amigos_nombres[i]+"' class='btn btn-info messageButton' onclick=widgetMensajes('" + i + "')>Mensajes</a></td>" +
+                "</tr>");
+        }
+
+    }
+
+    function actualizarSoloTablaFiltro(){
+        $("#tablaCuerpo").empty(); // Vaciar la tabla
+        for (i = 0; i < 1; i++) {
+            cargarMensajes(i);
+            let nombreMensajes = "msg"+amigos_nombres[i];
+            $("#tablaCuerpo").append(
+                "<tr id=" + amigos.amigos_ids[i] + ">" +
+                "<td>" + amigos.amigos_nombres[i] + "</td>" +
+                "<td>" + amigos.amigos_email[i] + "</td>" +
+                "<td id='"+nombreMensajes+"'>" + "Mensajes no leidos: " + amigos_mensajesNoLeidos[i] + "</td>" +
                 "<td><a id='"+amigos_nombres[i]+"' class='btn btn-info messageButton' onclick=widgetMensajes('" + i + "')>Mensajes</a></td>" +
                 "</tr>");
         }
@@ -175,6 +200,13 @@
     }
 
     cargarAmigos();
-
-    intervalID = window.setInterval(actualizarSoloTabla, 4000);
+    var intervalID;
+    if (!filtro) {
+        window.clearInterval(intervalID);
+        intervalID = window.setInterval(actualizarSoloTabla, 4000);
+    }
+    else {
+        window.clearInterval(intervalID);
+        intervalID = window.setInterval(actualizarSoloTablaFiltro, 4000);
+    }
 </script>

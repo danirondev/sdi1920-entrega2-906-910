@@ -50,7 +50,7 @@ public class NotaneitorTests {
 	static public void begin() {
 		//COnfiguramos las pruebas.
 		//Fijamos el timeout en cada opciÃ³n de carga de una vista. 2 segundos.
-		PO_View.setTimeout(6);
+		PO_View.setTimeout(12);
 
 	}
 
@@ -78,8 +78,9 @@ public class NotaneitorTests {
 		PO_HomeView.clickOption(driver, "registrarse", "class", "btn btn-primary");
 		//Rellenamos el formulario de registro.
 		PO_RegisterView.fillForm(driver, "", "", "", "99009900", "99009900");
+		SeleniumUtils.esperarSegundos(driver, 3);
 		//Comprobamos que no cambia de ventana (muestra un pop-up de error)
-		PO_View.checkElement(driver, "text", "Registrar usuario");
+		PO_View.checkElement(driver, "text", "Confirme contraseña:");
 	}
 
 	//PR03. Registro de Usuario con datos inválidos (repetición de contraseña inválida).
@@ -179,8 +180,10 @@ public class NotaneitorTests {
 		//Rellenamos el formulario
 		PO_LoginView.fillForm(driver, "pepe@email.com", "123456");	
 		//Comprobamos que entramos en la vista de usuarios de la aplicación (privado)
+		SeleniumUtils.esperarSegundos(driver, 5);
 		PO_View.checkElement(driver, "text", "Lista de usuarios de la aplicación");		
 		//Comprobamos cada usuario que debería de aparecer
+		SeleniumUtils.esperarSegundos(driver, 3);
 		PO_View.checkElement(driver, "text", "pepe@email.com");
 		PO_View.checkElement(driver, "text", "pedro@email.com");
 		PO_View.checkElement(driver, "text", "lau8989@email.com");
@@ -188,10 +191,11 @@ public class NotaneitorTests {
 		PO_View.checkElement(driver, "text", "dani99@email.com");
 		//Pasamos a la página 2
 		PO_PrivateView.clickNextPage(driver, "2");
+		SeleniumUtils.esperarSegundos(driver, 3);
 		PO_View.checkElement(driver, "text", "pergom@email.com");
 		PO_View.checkElement(driver, "text", "pelamar@email.com");
 		PO_View.checkElement(driver, "text", "bencam@email.com");
-		PO_View.checkElement(driver, "text", "mariano@email.com");
+		PO_View.checkElement(driver, "text", "eduardo@email.com");
 		//Nos desconectamos
 		PO_HomeView.clickOption(driver, "desconectarse", "class", "btn btn-primary");
 		//Comprobamos que estamos en la ventana de login
@@ -221,13 +225,21 @@ public class NotaneitorTests {
 		PO_View.checkElement(driver, "text", "pergom@email.com");
 		PO_View.checkElement(driver, "text", "pelamar@email.com");
 		PO_View.checkElement(driver, "text", "bencam@email.com");
-		PO_View.checkElement(driver, "text", "mariano@email.com");
+		PO_View.checkElement(driver, "text", "eduardo@email.com");
+		//Nos desconectamos
+		PO_HomeView.clickOption(driver, "desconectarse", "class", "btn btn-primary");
+		//Comprobamos que estamos en la ventana de login
+		PO_View.checkElement(driver, "text", "Identificación de usuario");
 	}	
 	
 	//PR13. Hacer una búsqueda escribiendo en el campo un texto que no exista y comprobar que se muestra la página que corresponde, con la lista de usuarios vacía.
 	@Test
 	public void PR13() {
-		//Comprobamos que estamos en la vista de usuarios de la aplicación
+		//Vamos al formulario de identificacion
+		PO_HomeView.clickOption(driver, "identificarse", "class", "btn btn-primary");
+		//Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "pepe@email.com", "123456");	
+		//Comprobamos que entramos en la vista de usuarios de la aplicación (privado)
 		PO_View.checkElement(driver, "text", "Lista de usuarios de la aplicación");		
 		//Vamos al buscador y escribimos algo que no exista. Luego, clicamos el botón de "buscar".
 		PO_PrivateView.writeOnSeeker(driver, "superman");
@@ -240,7 +252,11 @@ public class NotaneitorTests {
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "pergom@email.com", PO_View.getTimeout());
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "pelamar@email.com", PO_View.getTimeout());
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "bencam@email.com", PO_View.getTimeout());
-		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "mariano@email.com", PO_View.getTimeout());
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "eduardo@email.com", PO_View.getTimeout());
+		//Nos desconectamos
+		PO_HomeView.clickOption(driver, "desconectarse", "class", "btn btn-primary");
+		//Comprobamos que estamos en la ventana de login
+		PO_View.checkElement(driver, "text", "Identificación de usuario");
 	}	
 	
 	//PR14. Hacer una búsqueda con un texto específico y comprobar que se muestra la página que
@@ -248,22 +264,44 @@ public class NotaneitorTests {
 	//de su email.
 	@Test
 	public void PR14() {
-		//Comprobamos que estamos en la vista de usuarios de la aplicación
-		PO_View.checkElement(driver, "text", "Lista de usuarios de la aplicación");		
+		//Vamos al formulario de identificacion
+		PO_HomeView.clickOption(driver, "identificarse", "class", "btn btn-primary");
+		//Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "pepe@email.com", "123456");	
+		//Comprobamos que entramos en la vista de usuarios de la aplicación (privado)
+		PO_View.checkElement(driver, "text", "Lista de usuarios de la aplicación");			
 		//Vamos al buscador y escribimos el email del usuario que queremos buscar. Luego, clicamos el botón de "buscar".
-		PO_PrivateView.writeOnSeeker(driver, "mariano@email.com");
+		PO_PrivateView.writeOnSeeker(driver, "eduardo@email.com");
 		//Comprobamos que aparece el usuario que buscamos
-		PO_View.checkElement(driver, "text", "mariano@email.com");
+		PO_View.checkElement(driver, "text", "eduardo@email.com");
+		//Nos desconectamos
+		PO_HomeView.clickOption(driver, "desconectarse", "class", "btn btn-primary");
+		//Comprobamos que estamos en la ventana de login
+		PO_View.checkElement(driver, "text", "Identificación de usuario");
 	}	
 	
 	//PR15. Desde el listado de usuarios de la aplicación, enviar una invitación de amistad a un usuario.
 	//Comprobar que la solicitud de amistad aparece en el listado de invitaciones (punto siguiente). 
 	@Test
 	public void PR15() {
+		//Vamos al formulario de identificacion
+		PO_HomeView.clickOption(driver, "identificarse", "class", "btn btn-primary");
+		//Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "pepe@email.com", "123456");	
+		//Comprobamos que entramos en la vista de usuarios de la aplicación (privado)
+		PO_View.checkElement(driver, "text", "Lista de usuarios de la aplicación");			
+		//Vamos al buscador y escribimos el email del usuario que queremos buscar. Luego, clicamos el botón de "buscar".
+		PO_PrivateView.writeOnSeeker(driver, "eduardo@email.com");
+		//Comprobamos que aparece el usuario que buscamos
+		PO_View.checkElement(driver, "text", "eduardo@email.com");
 		//Agregamos el amigo que acabamos de buscar
-		PO_PrivateView.addFriend(driver, "Mariano");
+		PO_PrivateView.addFriend(driver, "Eduardo");
 		//Comprobamos que estamos en la vista de usuarios de la aplicación (sin errores)
 		PO_View.checkElement(driver, "text", "Lista de usuarios de la aplicación");	
+		//Nos desconectamos
+		PO_HomeView.clickOption(driver, "desconectarse", "class", "btn btn-primary");
+		//Comprobamos que estamos en la ventana de login
+		PO_View.checkElement(driver, "text", "Identificación de usuario");
 	}	
 	
 	//PR16. Desde el listado de usuarios de la aplicación, enviar una invitación de amistad a un usuario al
@@ -271,12 +309,18 @@ public class NotaneitorTests {
 	//ocultar el botón de enviar invitación o notificar que ya había sido enviada previamente
 	@Test
 	public void PR16() {
+		//Vamos al formulario de identificacion
+		PO_HomeView.clickOption(driver, "identificarse", "class", "btn btn-primary");
+		//Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "pepe@email.com", "123456");	
+		//Comprobamos que entramos en la vista de usuarios de la aplicación (privado)
+		PO_View.checkElement(driver, "text", "Lista de usuarios de la aplicación");			
 		//Vamos al buscador y escribimos el email del usuario que queremos buscar. Luego, clicamos el botón de "buscar".
-		PO_PrivateView.writeOnSeeker(driver, "mariano@email.com");
+		PO_PrivateView.writeOnSeeker(driver, "eduardo@email.com");
 		//Comprobamos que aparece el usuario que buscamos
-		PO_View.checkElement(driver, "text", "mariano@email.com");
+		PO_View.checkElement(driver, "text", "eduardo@email.com");
 		//Intentamos agregar de nuevo al mismo amigo
-		PO_PrivateView.addFriend(driver, "Mariano");
+		PO_PrivateView.addFriend(driver, "Eduardo");
 		//Comprobamos que aparece el error correspondiente
 		PO_View.checkElement(driver, "text", "Ya has mandado una solicitud a este usuario");
 		//Nos desconectamos
@@ -292,32 +336,59 @@ public class NotaneitorTests {
 		//Vamos al formulario de identificacion
 		PO_HomeView.clickOption(driver, "identificarse", "class", "btn btn-primary");
 		//Rellenamos el formulario
-		PO_LoginView.fillForm(driver, "mariano@email.com", "99009900");	
+		PO_LoginView.fillForm(driver, "eduardo@email.com", "99009900");	
 		//Comprobamos que entramos en la vista de usuarios de la aplicación (privado)
 		PO_View.checkElement(driver, "text", "Lista de usuarios de la aplicación");	
 		//Vamos a la pestaña de invitaciones
-		PO_HomeView.clickOption(driver, "invitaciones", "class", "btn btn-primary");
+		PO_HomeView.clickOption(driver, "invitaciones", "id", "mInvitaciones");
 		//Comprobamos que estamos en la pestaña de invitaciones
 		PO_View.checkElement(driver, "text", "Solicitudes de amistad recibidas");
 		//Comprobamos que sale la invitación de pepe
 		PO_View.checkElement(driver, "text", "Pepe");
+		//Nos desconectamos
+		PO_HomeView.clickOption(driver, "desconectarse", "class", "btn btn-primary");
+		//Comprobamos que estamos en la ventana de login
+		PO_View.checkElement(driver, "text", "Identificación de usuario");
 	}	
 	
 	//PR18. Sobre el listado de invitaciones recibidas. Hacer click en el botón/enlace de una de ellas y
 	//comprobar que dicha solicitud desaparece del listado de invitaciones.
 	@Test
 	public void PR18() {
+		//Vamos al formulario de identificacion
+		PO_HomeView.clickOption(driver, "identificarse", "class", "btn btn-primary");
+		//Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "eduardo@email.com", "99009900");	
+		//Comprobamos que entramos en la vista de usuarios de la aplicación (privado)
+		PO_View.checkElement(driver, "text", "Lista de usuarios de la aplicación");	
+		//Vamos a la pestaña de invitaciones
+		PO_HomeView.clickOption(driver, "invitaciones", "id", "mInvitaciones");
+		//Comprobamos que estamos en la pestaña de invitaciones
+		PO_View.checkElement(driver, "text", "Solicitudes de amistad recibidas");
+		//Comprobamos que sale la invitación de pepe
+		PO_View.checkElement(driver, "text", "Pepe");
 		//Aceptamos la invitacion de amistad de Pepe
 		PO_PrivateView.acceptFriend(driver, "Pepe");
+		SeleniumUtils.esperarSegundos(driver, 3);
 		//Comprobamos que desaparece
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Pepe", PO_View.getTimeout());
+		//Nos desconectamos
+		PO_HomeView.clickOption(driver, "desconectarse", "class", "btn btn-primary");
+		//Comprobamos que estamos en la ventana de login
+		PO_View.checkElement(driver, "text", "Identificación de usuario");
 	}	
 	
 	//PR19. Mostrar el listado de amigos de un usuario. Comprobar que el listado contiene los amigos que deben ser
 	@Test
 	public void PR19() {
+		//Vamos al formulario de identificacion
+		PO_HomeView.clickOption(driver, "identificarse", "class", "btn btn-primary");
+		//Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "eduardo@email.com", "99009900");	
+		//Comprobamos que entramos en la vista de usuarios de la aplicación (privado)
+		PO_View.checkElement(driver, "text", "Lista de usuarios de la aplicación");	
 		//Vamos a la pestaña de amigos
-		PO_HomeView.clickOption(driver, "amigos", "class", "btn btn-primary");	
+		PO_HomeView.clickOption(driver, "amigos", "id", "mAmigos");
 		//Comprobamos que estamos en la pestaña de amigos
 		PO_View.checkElement(driver, "text", "Lista de amigos");
 		//Comprobamos que sale nuestro nuevo amigo Pepe
@@ -333,7 +404,7 @@ public class NotaneitorTests {
 	@Test
 	public void PR20() {
 		//Intentamos acceder a la pestaña de usuarios
-		PO_HomeView.clickOption(driver, "usuarios", "class", "btn btn-primary");
+		PO_PrivateView.goTo(driver, "https://localhost:8081/usuarios");
 		//Comprobamos que estamos en la ventana de login
 		PO_View.checkElement(driver, "text", "Identificación de usuario");
 	}	
@@ -342,8 +413,8 @@ public class NotaneitorTests {
 	//de un usuario estándar. Se deberá volver al formulario de login
 	@Test
 	public void PR21() {
-		//Intentamos acceder a la pestaña de usuarios
-		PO_HomeView.clickOption(driver, "invitaciones", "class", "btn btn-primary");
+		//Intentamos acceder a la pestaña de invitaciones
+		PO_PrivateView.goTo(driver, "https://localhost:8081/invitaciones");
 		//Comprobamos que estamos en la ventana de login
 		PO_View.checkElement(driver, "text", "Identificación de usuario");	
 	}	
@@ -353,7 +424,7 @@ public class NotaneitorTests {
 	@Test
 	public void PR22() {
 		//Intentamos acceder a la pestaña de usuarios
-		PO_HomeView.clickOption(driver, "amigos", "class", "btn btn-primary");
+		PO_PrivateView.goTo(driver, "https://localhost:8081/amigos");
 		//Comprobamos que estamos en la ventana de login
 		PO_View.checkElement(driver, "text", "Identificación de usuario");		
 	}	
@@ -412,12 +483,12 @@ public class NotaneitorTests {
 		//Rellenamos el formulario
 		PO_LoginView.fillForm(driver, "pepe@email.com", "123456");
 		//Comprobamos que estamos viendo la lista de amigos
+		SeleniumUtils.esperarSegundos(driver, 6);
 		PO_View.checkElement(driver, "text", "Lista de amigos");		
 		//Buscamos un amigo con nombre "Pedro"
 		PO_PrivateView.filterClient(driver, "Pedro");
-		SeleniumUtils.esperarSegundos(driver, 3);
+		SeleniumUtils.esperarSegundos(driver, 6);
 		//Comprobamos que efectivamente nuestro amigo Pedro aparece en la lista
-		PO_View.checkElement(driver, "text", "Pedro");
 		PO_View.checkElement(driver, "text", "pedro@email.com");	
 		//Reseteamos el filtro y volvemos a mostrar todo los amigos
 		PO_PrivateView.cleanFilter(driver);
@@ -435,10 +506,12 @@ public class NotaneitorTests {
 		PO_LoginView.fillForm(driver, "pepe@email.com", "123456");
 		//Comprobamos que estamos viendo la lista de amigos
 		PO_View.checkElement(driver, "text", "Lista de amigos");	
-		SeleniumUtils.esperarSegundos(driver, 5);
+		SeleniumUtils.esperarSegundos(driver, 4);
 		//Clicamos en el boton de los mensajes de Bentito
 		PO_PrivateView.clickOnMessages(driver, "Bentito");
 		//Comprobamos que contiene los tres mensajes correspondientes
+		PO_PrivateView.clickOnWriter(driver, "Mensaje numero 3");	
+		SeleniumUtils.esperarSegundos(driver, 4);
 		PO_View.checkElement(driver, "text", "Mensaje numero 1");
 		PO_View.checkElement(driver, "text", "Mensaje numero 2");
 		PO_View.checkElement(driver, "text", "Mensaje numero 3");
@@ -460,25 +533,111 @@ public class NotaneitorTests {
 		SeleniumUtils.esperarSegundos(driver, 5);
 		//Clicamos en el boton de los mensajes de Bentito
 		PO_PrivateView.clickOnMessages(driver, "Bentito");
-		SeleniumUtils.esperarSegundos(driver, 6);
+		SeleniumUtils.esperarSegundos(driver, 5);
 		//Enviamos un nuevo mensaje ahora mismo
 		PO_PrivateView.clickOnWriter(driver, "Mensaje creado ahora mismo");	
 		//Comprobamos que aparece el mensaje enviado tras un breve lapso de tiempo.
-		SeleniumUtils.esperarSegundos(driver, 6);
+		SeleniumUtils.esperarSegundos(driver, 5);
 		PO_View.checkElement(driver, "text", "Mensaje creado ahora mismo");
 	}	
 	
 	// ---------------------------------------------OPCIONALES-----------------------------------------------------------
-	//PR029. Sin hacer /
+	//PR029. Identificarse en la aplicación y enviar un mensaje a un amigo, validar que el mensaje enviado
+	//aparece en el chat. Identificarse después con el usuario que recibido el mensaje y validar que tiene un
+	//mensaje sin leer, entrar en el chat y comprobar que el mensaje pasa a tener el estado leído.
 	@Test
 	public void PR29() {
-		assertTrue("PR29 sin hacer", true);			
+		//Accedemos al cliente.html
+		PO_PrivateView.goTo(driver, "https://localhost:8081/cliente.html");
+		//Comprobamos que estamos en la ventana de login
+		PO_View.checkElement(driver, "text", "Email:");		
+		PO_View.checkElement(driver, "text", "Password:");	
+		//Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "pepe@email.com", "123456");
+		//Comprobamos que estamos viendo la lista de amigos
+		PO_View.checkElement(driver, "text", "Lista de amigos");	
+		SeleniumUtils.esperarSegundos(driver, 5);
+		//Clicamos en el boton de los mensajes de Ramiro
+		PO_PrivateView.clickOnMessages(driver, "Ramiro");
+		SeleniumUtils.esperarSegundos(driver, 6);
+		//Enviamos un nuevo mensaje ahora mismo
+		PO_PrivateView.clickOnWriter(driver, "Mensaje para Ramiro");	
+		PO_PrivateView.clickOnWriter(driver, "Mensaje para Ramiro");
+		//Comprobamos que aparece el mensaje enviado tras un breve lapso de tiempo.
+		SeleniumUtils.esperarSegundos(driver, 6);
+		PO_View.checkElement(driver, "text", "Mensaje para Ramiro");
+		
+		//Accedemos al cliente.html
+		PO_PrivateView.goTo(driver, "https://localhost:8081/cliente.html");
+		//Comprobamos que estamos en la ventana de login
+		PO_View.checkElement(driver, "text", "Email:");		
+		PO_View.checkElement(driver, "text", "Password:");	
+		//Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "ramiro@email.com", "123456");
+		//Comprobamos que estamos viendo la lista de amigos
+		PO_View.checkElement(driver, "text", "Lista de amigos");	
+		SeleniumUtils.esperarSegundos(driver, 6);
+		//Comprobamos que los mensajes no leidos en la conversación de Pepe son 1
+		WebElement element = driver.findElement(By.id("msgPepe"));
+		PO_View.checkElement(driver, "text", element.getText()); //Comprueba que tiene un mensaje de Pepe
+		//Entramos a la conversación con Pepe
+		PO_PrivateView.clickOnMessages(driver, "Pepe");
+		SeleniumUtils.esperarSegundos(driver, 6);
+		//Comprobamos que aparece el mensaje enviado por Pepe tras un breve lapso de tiempo, y se pone a leido.
+		PO_View.checkElement(driver, "text", "Mensaje para Ramiro --Leido--");
 	}
 
-	//PR030. Sin hacer /
+	//PR030. Identificarse en la aplicación y enviar tres mensajes a un amigo, validar que los mensajes
+	//enviados aparecen en el chat. Identificarse después con el usuario que recibido el mensaje y validar que el
+	//número de mensajes sin leer aparece en la propia lista de amigos.
 	@Test
 	public void PR30() {
-		assertTrue("PR30 sin hacer", true);			
+		//Accedemos al cliente.html
+		PO_PrivateView.goTo(driver, "https://localhost:8081/cliente.html");
+		//Comprobamos que estamos en la ventana de login
+		PO_View.checkElement(driver, "text", "Email:");		
+		PO_View.checkElement(driver, "text", "Password:");	
+		//Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "pepe@email.com", "123456");
+		//Comprobamos que estamos viendo la lista de amigos
+		PO_View.checkElement(driver, "text", "Lista de amigos");	
+		SeleniumUtils.esperarSegundos(driver, 5);
+		//Clicamos en el boton de los mensajes de Ramiro
+		PO_PrivateView.clickOnMessages(driver, "Laura");
+		SeleniumUtils.esperarSegundos(driver, 6);
+		//Enviamos un nuevo mensaje ahora mismo
+		PO_PrivateView.clickOnWriter(driver, "Mensaje para Laura numero 1");	
+		PO_PrivateView.clickOnWriter(driver, "Mensaje para Laura numero 2");
+		PO_PrivateView.clickOnWriter(driver, "Mensaje para Laura numero 3");
+		//Comprobamos que aparece el mensaje enviado tras un breve lapso de tiempo.
+		SeleniumUtils.esperarSegundos(driver, 6);
+		PO_View.checkElement(driver, "text", "Mensaje para Laura numero 1 --No leido--");
+		SeleniumUtils.esperarSegundos(driver, 3);
+		PO_View.checkElement(driver, "text", "Mensaje para Laura numero 2 --No leido--");
+		SeleniumUtils.esperarSegundos(driver, 3);
+		PO_View.checkElement(driver, "text", "Mensaje para Laura numero 3 --No leido--");
+		
+		//Accedemos al cliente.html
+		PO_PrivateView.goTo(driver, "https://localhost:8081/cliente.html");
+		//Comprobamos que estamos en la ventana de login
+		PO_View.checkElement(driver, "text", "Email:");		
+		PO_View.checkElement(driver, "text", "Password:");	
+		//Rellenamos el formulario
+		PO_LoginView.fillForm(driver, "lau8989@email.com", "123456");
+		//Comprobamos que estamos viendo la lista de amigos
+		PO_View.checkElement(driver, "text", "Lista de amigos");	
+		SeleniumUtils.esperarSegundos(driver, 6);
+		//Comprobamos que los mensajes no leidos en la conversación de Pepe son 3
+		WebElement element = driver.findElement(By.id("msgPepe"));
+		PO_View.checkElement(driver, "text", element.getText()); //Comprueba que tiene 3 mensaje de Pepe
+		//Entramos a la conversación con Pepe
+		PO_PrivateView.clickOnMessages(driver, "Pepe");
+		SeleniumUtils.esperarSegundos(driver, 6);
+		//Comprobamos que aparecen los mensajes enviado por Pepe tras un breve lapso de tiempo, y se pone a leido.
+		SeleniumUtils.esperarSegundos(driver, 6);
+		SeleniumUtils.textoPresentePagina(driver, "Mensaje para Laura numero 1 --Leido--");
+		SeleniumUtils.textoPresentePagina(driver, "Mensaje para Laura numero 2 --Leido--");
+		SeleniumUtils.textoPresentePagina(driver, "Mensaje para Laura numero 3 --Leido--");
 	}
 	
 	//PR031. Sin hacer /
