@@ -36,6 +36,7 @@
             success: function(respuesta) {
                 console.log(respuesta.token);
                 token = respuesta.token;
+                window.history.pushState("", "", "/cliente.html?w="+$("#email").val());
                 $("#contenedor-principal").load("widget-amigos.html");
             },
             error : function(error) {

@@ -59,7 +59,8 @@
             type: "POST",
             data: {
                 texto: mensaje,
-                destino: friendEmail
+                destino: friendEmail,
+                leido: false
             },
             dataType: 'json',
             headers: {"token": token},
@@ -89,11 +90,36 @@
     }
 
     function actualizarMensajes(conversation) {
+        var url = new URL(window.location.href);
+        var friendEmail = url.searchParams.get("e");
         $(".currentChatContent").empty(); // Vaciar la tabla
         for (i = 0; i < conversation.length; i++) {
+            if (!conversation[i].leido) leidoS = "No leído";
+            else leidoS = "Leído";
+                if (conversation[i].destino.toString() != friendEmail.toString() && !conversation[i].leido) { //Si el mensaje es para mi
+                    let friendID = url.searchParams.get("w");
+                    $.ajax({
+                        url: "https://localhost:8081/api/mensajes/"+friendID,
+                        type: "PUT",
+                        data: {
+                            destino: friendEmail,
+                            leido: false
+                        },
+                        dataType: 'json',
+                        headers: {"token": token},
+                        success: function (respuesta) {
+                            console.log("Mensajes leidos");
+                        },
+                        error: function (error) {
+                            $("#contenedor-principal").load("widget-login.html");
+                        }
+                    });
+                    conversation[i].leido = true; //He leido el mensaje
+                    leidoS = "Leído";
+                }
             $(".currentChatContent").append(
                 "<div class='message sent'>" +
-                "<div class='messageContent'>" + conversation[i].texto+
+                "<div class='messageContent'>" + conversation[i].texto + "      " + "--" + leidoS + "--" +
                 "</div>"
             );
         }
@@ -106,6 +132,6 @@
 
     cargarMensajes();
 
-    intervalID = window.setInterval(cargarMensajes, 6000);
+    intervalID = window.setInterval(cargarMensajes, 4000);
 
 </script>

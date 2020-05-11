@@ -19,11 +19,13 @@
     </div>
 
 <script>
+    var primera = true;
     var amigos_ids = [];
     var amigos_nombres = [];
     var amigos_emails = [];
-    window.history.pushState("", "", "/cliente.html?w=amigos");
+    var amigos_mensajesNoLeidos = [];
     var URLbase = "https://localhost:8081/api";
+    var amigos;
     function cargarAmigos() {
         $.ajax({
             url: URLbase + "/amigosW",
@@ -61,44 +63,118 @@
     function actualizarTabla(amigos) {
         $("#tablaCuerpo").empty(); // Vaciar la tabla
         for (i = 0; i < amigos.amigos_ids.length; i++) {
-            amigos_ids.push(amigos.amigos_ids[i]);
-            amigos_nombres.push(amigos.amigos_nombres[i]);
-            amigos_emails.push(amigos.amigos_email[i]);
+            if (primera) {
+                amigos_ids.push(amigos.amigos_ids[i]);
+                amigos_nombres.push(amigos.amigos_nombres[i]);
+                amigos_emails.push(amigos.amigos_email[i]);
+            }
+            amigos_mensajesNoLeidos[i] = 0;
+            cargarMensajes(i);
             $("#tablaCuerpo").append(
                 "<tr id=" + amigos.amigos_ids[i] + ">" +
                 "<td>" + amigos.amigos_nombres[i] + "</td>" +
                 "<td>" + amigos.amigos_email[i] + "</td>" +
+                "<td>" + "Mensajes no leidos: " + amigos_mensajesNoLeidos[i] + "</td>" +
                 "<td><a id='"+amigos_nombres[i]+"' class='btn btn-info messageButton' onclick=widgetMensajes('" + i + "')>Mensajes</a></td>" +
                 "</tr>");
         }
+        primera = false;
     }
 
     function actualizarTablaFiltro(amigos, nombre) {
         amigos_ids = [];
         amigos_nombres = [];
         amigos_emails = [];
+        amigos_mensajesNoLeidos = [];
         $("#tablaCuerpo").empty(); // Vaciar la tabla
         for (i = 0; i < amigos.amigos_ids.length; i++) {
-            amigos_ids.push(amigos.amigos_ids[i]);
-            amigos_nombres.push(amigos.amigos_nombres[i]);
-            amigos_emails.push(amigos.amigos_email[i]);
+            if (primera) {
+                amigos_ids.push(amigos.amigos_ids[i]);
+                amigos_nombres.push(amigos.amigos_nombres[i]);
+                amigos_emails.push(amigos.amigos_email[i]);
+            }
+            amigos_mensajesNoLeidos[i] = 0;
+            cargarMensajes(i);
             if (amigos.amigos_nombres[i] == nombre) {
                 $("#tablaCuerpo").append(
                     "<tr id=" + amigos.amigos_ids[i] + ">" +
                     "<td>" + amigos.amigos_nombres[i] + "</td>" +
                     "<td>" + amigos.amigos_email[i] + "</td>" +
+                    "<td>" + "Mensajes no leidos: " + amigos_mensajesNoLeidos[i] + "</td>" +
                     "<td><a id='"+amigos_nombres[i]+"' class='btn btn-info messageButton' onclick=widgetMensajes('" + i + "')>Mensajes</a></td>" +
                     "</tr>");
             }
         }
+        primera = false;
     }
 
     function widgetMensajes(valor) {
         let friendId = amigos_ids[valor];
         let friendEmail = amigos_emails[valor];
         window.history.pushState("", "", "/cliente.html?w=" + friendId + "&e=" + friendEmail);
+        window.clearInterval(intervalID);
         $("#contenedor-principal").load("widget-chat.html");
     }
-    
+
+    function cargarMensajes(valor) {
+        let friendId = amigos_ids[valor];
+        let friendEmail = amigos_emails[valor];
+        var URLbase = "https://localhost:8081/api";
+        var urlAjax = URLbase + "/mensajes/" + friendId; //Está bien
+        $.ajax({
+            url: urlAjax,
+            type: "GET",
+            data: {},
+            dataType: 'json',
+            headers: {"token": token},
+            success: function (respuesta) {
+                console.log("Cargar mensajes entro");
+                let convers= respuesta;
+                let mensaje = "No hay mensajes";
+                JSON.stringify(mensaje);
+                if (convers === mensaje) {
+                    amigos_mensajesNoLeidos[valor] = 0;
+                } else {
+                    cuentaMensajes(convers, valor, friendEmail);
+                }
+            },
+            error: function (error) {
+
+                if (error.status == 500) {
+                    $("#contenedor-principal").load("widget-login.html");
+                }
+            }
+        });
+    }
+
+    function cuentaMensajes (respuesta, indice, friendEmail) {
+        console.log("Empiezo a contar los mensajes de " + friendEmail.toString());
+        let contadorNoLeidos = 0;
+        var url = new URL(window.location.href);
+        var myEmail = url.searchParams.get("w");
+        for (i = 0; i < respuesta.length; i++) {
+            if (respuesta[i].destino.toString() == myEmail.toString() && respuesta[i].emisor.toString() == friendEmail.toString() && !respuesta[i].leido) { //Si el mensaje es para mi
+               contadorNoLeidos++;
+            }
+        }
+        amigos_mensajesNoLeidos[indice] = contadorNoLeidos;
+    }
+
+    function actualizarSoloTabla(){
+        $("#tablaCuerpo").empty(); // Vaciar la tabla
+        for (i = 0; i < amigos.amigos_ids.length; i++) {
+            $("#tablaCuerpo").append(
+                "<tr id=" + amigos.amigos_ids[i] + ">" +
+                "<td>" + amigos.amigos_nombres[i] + "</td>" +
+                "<td>" + amigos.amigos_email[i] + "</td>" +
+                "<td>" + "Mensajes no leidos: " + amigos_mensajesNoLeidos[i] + "</td>" +
+                "<td><a id='"+amigos_nombres[i]+"' class='btn btn-info messageButton' onclick=widgetMensajes('" + i + "')>Mensajes</a></td>" +
+                "</tr>");
+        }
+
+    }
+
     cargarAmigos();
+
+    intervalID = window.setInterval(actualizarSoloTabla, 4000);
 </script>
