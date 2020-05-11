@@ -510,7 +510,6 @@ public class NotaneitorTests {
 		//Clicamos en el boton de los mensajes de Bentito
 		PO_PrivateView.clickOnMessages(driver, "Bentito");
 		//Comprobamos que contiene los tres mensajes correspondientes
-		PO_PrivateView.clickOnWriter(driver, "Mensaje numero 3");	
 		SeleniumUtils.esperarSegundos(driver, 4);
 		PO_View.checkElement(driver, "text", "Mensaje numero 1");
 		PO_View.checkElement(driver, "text", "Mensaje numero 2");

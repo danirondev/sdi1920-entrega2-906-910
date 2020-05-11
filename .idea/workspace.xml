@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="64a640a8-459f-47c0-b406-d2a568af2f7c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sdi1920-entrega2-906-910/RedSocial.log" beforeDir="false" afterPath="$PROJECT_DIR$/sdi1920-entrega2-906-910/RedSocial.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sdi1920-entrega2-906-910/public/widget-amigos.html" beforeDir="false" afterPath="$PROJECT_DIR$/sdi1920-entrega2-906-910/public/widget-amigos.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sdi1920-entrega2-906-910/public/widget-chat.html" beforeDir="false" afterPath="$PROJECT_DIR$/sdi1920-entrega2-906-910/public/widget-chat.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sdi1920-entrega2-906-910/views/bidentificacion.html" beforeDir="false" afterPath="$PROJECT_DIR$/sdi1920-entrega2-906-910/views/bidentificacion.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sdi1920-entrega2-test-906-910/bin/com/uniovi/tests/NotaneitorTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/sdi1920-entrega2-test-906-910/bin/com/uniovi/tests/NotaneitorTests.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sdi1920-entrega2-test-906-910/src/com/uniovi/tests/NotaneitorTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/sdi1920-entrega2-test-906-910/src/com/uniovi/tests/NotaneitorTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sdi1920-entrega2-test-906-910/src/com/uniovi/tests/pageobjects/PO_PrivateView.java" beforeDir="false" afterPath="$PROJECT_DIR$/sdi1920-entrega2-test-906-910/src/com/uniovi/tests/pageobjects/PO_PrivateView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +27,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -72,6 +66,7 @@
       <workItem from="1589207419781" duration="1169000" />
       <workItem from="1589210405956" duration="1805000" />
       <workItem from="1589212525257" duration="48000" />
+      <workItem from="1589212917814" duration="235000" />
     </task>
     <task id="LOCAL-00001" summary="Opcionales C5 y C6 funcionando perfectamente">
       <created>1589196315123</created>
@@ -80,7 +75,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589196315123</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Todo terminado y funcional (incluido pruebas) hasta el C6 (incluido)">
+      <created>1589213126342</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1589213126342</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -88,14 +90,15 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Opcionales C5 y C6 funcionando perfectamente" />
-    <option name="LAST_COMMIT_MESSAGE" value="Opcionales C5 y C6 funcionando perfectamente" />
+    <MESSAGE value="Todo terminado y funcional (incluido pruebas) hasta el C6 (incluido)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Todo terminado y funcional (incluido pruebas) hasta el C6 (incluido)" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="312" y="0" key="CommitChangelistDialog2" timestamp="1589213051123">
+    <state x="272" y="0" key="CommitChangelistDialog2" timestamp="1589213121222">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state x="312" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1589189554159" />
-    <state x="312" y="0" key="CommitChangelistDialog2/0.0.1366.768@0.0.1366.768" timestamp="1589213051123" />
+    <state x="272" y="0" key="CommitChangelistDialog2/0.0.1366.768@0.0.1366.768" timestamp="1589213121222" />
     <state width="1345" height="2" key="GridCell.Tab.0.bottom" timestamp="1589211197877">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
@@ -164,10 +167,10 @@
       <screen x="0" y="0" width="1366" height="768" />
     </state>
     <state width="1345" height="238" key="GridCell.Tab.3.right/0.0.1366.768@0.0.1366.768" timestamp="1589206797085" />
-    <state x="275" y="116" key="Vcs.Push.Dialog.v2" timestamp="1589196324826">
+    <state x="275" y="116" key="Vcs.Push.Dialog.v2" timestamp="1589213140528">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
-    <state x="275" y="116" key="Vcs.Push.Dialog.v2/0.0.1366.768@0.0.1366.768" timestamp="1589196324826" />
+    <state x="275" y="116" key="Vcs.Push.Dialog.v2/0.0.1366.768@0.0.1366.768" timestamp="1589213140528" />
     <state x="362" y="175" key="git4idea.merge.GitPullDialog" timestamp="1589194016068">
       <screen x="0" y="0" width="1366" height="768" />
     </state>
