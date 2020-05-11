@@ -9,7 +9,7 @@
                 <input type="text" class="search-query form-control"
                        placeholder="Nombre, apellido o email del usuario" name="busqueda"/>
                 <span class="input-group-btn">
-                    <button class="btn" type="submit">
+                    <button class="btn" type="submit" id="btnBusqueda">
                     <span class="glyphicon glyphicon-search"></span>
                     </button>
                 </span>
@@ -37,7 +37,7 @@
                 <form method="post" action="/invitaciones/{{ usuario._id.toString() }}">
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary">Agregar amigo</button>
+                        <button type="submit" id="btnAgregar{{ usuario.nombre }}" class="btn btn-primary">Agregar amigo</button>
                     </div>
                 </div>
             </form>
@@ -52,7 +52,7 @@
     <ul class="pagination">
         {% for pagina in paginas %}
         <li class="page-item" id="pi-{{ pagina}}">
-            <a class="page-Link" href="/usuarios?pg={{ pagina }}">{{ pagina }}</a>
+            <a class="page-Link" id="btnNext{{ pagina }}" href="/usuarios?pg={{ pagina }}">{{ pagina }}</a>
         </li>
         {% endfor %}
         <script>
