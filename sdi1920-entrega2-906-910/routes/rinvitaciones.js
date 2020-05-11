@@ -23,9 +23,9 @@ module.exports = function(app, swig, gestorBD) {
                     let vec_emisores = [];
                     for (i = 0; i < invitaciones.length; i++)
                         vec_emisores.push(invitaciones[i].emisor);
-                    let criterio = {email: {$in: vec_emisores}};
+                    let peticiones = {email: {$in: vec_emisores}};
                     //PROBLEMA RESUELTO REALIZAMOS VECTOR DE EMAILS QUE POSTERIORMENTE BUSCAMOS EN EL GESTOR DE LA BD
-                    gestorBD.obtenerUsuarios(criterio, function (usuarios) {
+                    gestorBD.obtenerUsuarios(peticiones, function (usuarios) {
                         let respuesta = swig.renderFile('views/binvitaciones.html',
                             {
                                 usuarios: usuarios,
@@ -73,11 +73,11 @@ module.exports = function(app, swig, gestorBD) {
                             if (es_amigo)
                                 res.redirect("/usuarios?mensaje=Este usuario ya es tu amigo");
                             else {
-                                let criterio2 = {
+                                let peticiones = {     //criterio para buscar invitaciones de amistad y comprobar asi que no se repiten
                                     emisor: req.session.usuario,
                                     usuario_id: gestorBD.mongo.ObjectID(req.params.usuario_id)
                                 };
-                                gestorBD.obtenerInvitaciones(criterio2, function (invitaciones) {
+                                gestorBD.obtenerInvitaciones(peticiones, function (invitaciones) {
                                     //Si la longitud de las invitaciones que cumplen el criterio es distinto de 0 significa que ya hay una
                                     // misma invitacion y no podremos realizar otra
                                     if (invitaciones.length != 0) {

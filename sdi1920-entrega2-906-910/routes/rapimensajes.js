@@ -1,7 +1,7 @@
 module.exports = function(app, gestorBD) {
 
-    app.get("/api/mensajes/:_id", function (req, res) {
-        var mensajeDefault = false;
+    app.put("/api/mensajes/:_id", function (req, res) {
+
         var criterio = {
             _id: gestorBD.mongo.ObjectID(req.params._id)
         };
@@ -12,7 +12,7 @@ module.exports = function(app, gestorBD) {
                     error: "el usuario no existe"
                 })
             }else {
-                let criterio2={
+                let criterio_mensaje = {
                     $or: [
                         {
                             $and: [
@@ -26,10 +26,53 @@ module.exports = function(app, gestorBD) {
                         }
                     ]
                 };
-                gestorBD.obtenerMensajes(criterio2, function (mensajes) {
+                let mensaje = {leido: true};
+                gestorBD.mensajeLeido(criterio_mensaje, mensaje, function (result) {
+                    if (result == null) {
+                        res.status(200);
+                        res.json({
+                            mensaje: "se ha producido un error"
+                        })
+                    } else {
+                        res.status(200);
+                        res.send(JSON.stringify("Se ha modificado"));
+                    }
+                });
+            }
+        });
+    });
+
+
+    app.get("/api/mensajes/:_id", function (req, res) {
+        var mensajeDefault = false;
+        var criterio = {
+            _id: gestorBD.mongo.ObjectID(req.params._id)
+        };
+        gestorBD.obtenerUsuarios(criterio,function (usuarios) {
+            if(usuarios==null || usuarios.length==0){
+                res.status(500);
+                res.json({
+                    error: "el usuario no existe"
+                })
+            }else {
+                let criterio_mensaje={
+                    $or: [
+                        {
+                            $and: [
+                                {emisor: res.usuario},
+                                {destino: usuarios[0].email}]
+                        },
+                        {
+                            $and: [
+                                {emisor: usuarios[0].email},
+                                {destino: res.usuario}]
+                        }
+                    ]
+                };
+                gestorBD.obtenerMensajes(criterio_mensaje, function (mensajes) {
                     if (!mensajeDefault && (mensajes == null || mensajes.length==0)) {
                         let mensaje = "No hay mensajes";
-                        mensajeDefault = true;
+                        var mensajeDefault = true;
                         res.status(200);
                         res.send(JSON.stringify(mensaje));
                     } else {

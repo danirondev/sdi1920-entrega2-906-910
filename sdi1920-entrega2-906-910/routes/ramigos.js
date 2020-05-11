@@ -12,11 +12,11 @@ module.exports = function(app, swig, gestorBD) {
             if(usuarios.length==0)
                 res.redirect("/usuarios?mensaje=Ha ocurrido un error&tipoMensaje=alert-danger ");
             else {
-                let criterio2={$or: [
+                let criterio_amigo={$or: [
                         { amigoA_id :  usuarios[0]},
                         { amigoB_id :  usuarios[0]}]
                 };
-                gestorBD.obtenerAmigosPg(criterio2, pg, function (amigos, total) {
+                gestorBD.obtenerAmigosPg(criterio_amigo, pg, function (amigos, total) {
                         let ultimaPg = total / 5;
                         if (total % 5 > 0) { // Sobran decimales
                             ultimaPg = ultimaPg + 1;
@@ -55,11 +55,11 @@ module.exports = function(app, swig, gestorBD) {
             if(usuarios.length==0)
                 res.redirect("/usuarios?mensaje=Ha ocurrido un error&tipoMensaje=alert-danger");
             else{
-                let criterio2={
+                let amistad={
                     amigoA_id :  usuarios[0],
                     amigoB_id :  usuarios[1]
                 };
-                gestorBD.insertarAmigo(criterio2,function (id) {
+                gestorBD.insertarAmigo(amistad,function (id) {
                     if (id == null) {
                         res.redirect("/amigos?mensaje=Ha ocurrido un error&tipoMensaje=alert-danger");
                     } else {
@@ -90,8 +90,8 @@ module.exports = function(app, swig, gestorBD) {
         })
     });
     //Funcion que obtiene el email dado un criterio que en este caso sería el id del usuario
-    function obtenerEmailUser(criterio, funcionCallback){
-        gestorBD.obtenerUsuarios(criterio,function(usuarios){
+    function obtenerEmailUser(id_usuario, funcionCallback){
+        gestorBD.obtenerUsuarios(id_usuario,function(usuarios){
             if(usuarios.length==0)
                 funcionCallback(null);
             else{
